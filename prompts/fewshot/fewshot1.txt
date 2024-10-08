@@ -1,0 +1,75 @@
+The following Python script uses TaskVine to run the shell command hostname on a worker machine. The manager begins listening for workers on port 9123. Then, the hostname task is submitted to the manager. The program waits for the task to be completed and prints a completion message before exiting.
+
+```
+import ndcctools.taskvine as vine
+
+manager = vine.Manager(9123)
+
+task = vine.Task("hostname")
+manager.submit(task)
+
+while not manager.empty():
+    task = manager.wait(5)
+    if task is not None:
+        print(f"Task {task.id} completed.")
+```
+
+Write a Python script using TaskVine to get the current date on a worker machine.
+-----
+import ndcctools.taskvine as vine
+
+# Start the manager listening for workers on port 9123
+manager = vine.Manager(9123)
+
+# Create a task to run the 'date' command on a worker
+task = vine.Task("date")
+
+# Submit the task to the manager
+manager.submit(task)
+
+# Wait for the task to complete and print the result
+while not manager.empty():
+    task = manager.wait(5)
+    if task is not None:
+        print(f"Task {task.id} completed.")
+-----
+The following Python script similarly uses TaskVine to run hostname on a worker machine. The output is stored into a file on the manager machine named output.
+
+```
+import ndcctools.taskvine as vine
+
+manager = vine.Manager(9123)
+output_file = manager.declare_file("output")
+
+task = vine.Task("hostname > output")
+task.add_output(output_file, "output")
+manager.submit(task)
+
+while not manager.empty():
+    task = manager.wait(5)
+    if task is not None:
+        print(f"Task {task.id} completed.")
+```
+
+Write a Python script using TaskVine to get the current date on a worker machine and store the output to a file named current_date.
+-----
+import ndcctools.taskvine as vine
+
+# Start the manager listening for workers on port 9123
+manager = vine.Manager(9123)
+
+# Declare the output file that will store the result
+output_file = manager.declare_file("current_date")
+
+# Create a task to run the 'date' command and store the output into 'current_date'
+task = vine.Task("date > current_date")
+task.add_output(output_file, "current_date")
+
+# Submit the task to the manager
+manager.submit(task)
+
+# Wait for the task to complete and print the result
+while not manager.empty():
+    task = manager.wait(5)
+    if task is not None:
+        print(f"Task {task.id} completed.")

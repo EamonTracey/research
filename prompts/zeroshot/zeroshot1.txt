@@ -1,0 +1,50 @@
+Write a sample application using TaskVine that makes 100 random LLM requests to the openai API.
+-----
+import taskvine
+import openai
+import random
+import os
+
+# Set up your OpenAI API key
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+# Function to send a random request to the OpenAI API
+def make_openai_request(prompt):
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # Choose the model
+            prompt=prompt,
+            max_tokens=50
+        )
+        return response['choices'][0]['text'].strip()
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Create a TaskVine master that will distribute the tasks
+master = taskvine.Master()
+
+# Create a directory for logging
+master.log_directory("vine_logs")
+
+# Generate 100 random prompts
+prompts = [f"Write a sentence about {random.choice(['space', 'ocean', 'forest', 'AI', 'future'])}" for _ in range(100)]
+
+# Create 100 tasks, each sending a random request to the OpenAI API
+for i, prompt in enumerate(prompts):
+    # Create a task
+    task = master.task()
+    task.specify_input_file(__file__)  # Assuming the workers need this script
+    task.set_tag(f"Task-{i}")
+    
+    # Command to execute (this could also be a worker that imports openai and makes the request)
+    task.execute(f"python3 -c 'import openai; openai.api_key=\"{os.getenv('OPENAI_API_KEY')}\"; print(openai.Completion.create(engine=\"text-davinci-003\", prompt=\"{prompt}\", max_tokens=50)['choices'][0]['text'].strip())'")
+
+# Wait for all tasks to finish
+master.wait_for_all()
+
+# Print results
+for task in master.tasks:
+    print(f"{task.tag()}: {task.output()}")
+
+# Clean up
+master.shutdown()

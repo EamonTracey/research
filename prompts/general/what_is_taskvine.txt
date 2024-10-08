@@ -1,0 +1,22 @@
+What is TaskVine?
+-----
+TaskVine is a distributed computing framework designed for handling large-scale task-based workloads. It focuses on maximizing parallelism by dynamically distributing tasks across multiple machines, allowing for efficient use of computational resources.
+
+TaskVine is built to be scalable and flexible, making it suitable for environments like clusters or cloud platforms. It supports fault tolerance, so if a machine fails, tasks are automatically reassigned to other available machines. The system is often used for data-intensive or computation-heavy applications, including scientific simulations, data processing, and large-scale research.
+
+Some key features include:
+
+    Dynamic task distribution: Tasks are distributed in real-time based on resource availability.
+    Fault tolerance: The system can recover from machine failures and automatically reassign tasks.
+    Scalability: It can scale across many nodes, making it appropriate for use in cloud computing or distributed clusters.
+    Simple API: Users interact with the system through a simple interface, abstracting the complexities of distributed systems.
+
+Is there something specific you'd like to know about TaskVine, like how it might be used in one of your projects?
+-----
+Who develops and maintains TaskVine?
+-----
+TaskVine is developed and maintained by the Cooperative Computing Lab at the University of Notre Dame. The lab focuses on creating tools and technologies for distributed computing, enabling scientists and researchers to harness large-scale computational resources for complex problems.
+
+The Cooperative Computing Lab is known for other related tools like Work Queue and Makeflow, which are also designed to facilitate scalable distributed computing. TaskVine builds on their experience, providing more flexibility and improved parallelism for dynamic task execution across distributed systems.
+
+If you're interested in learning more, you can find additional details on their official site or GitHub repositories, where the source code is often made available.
