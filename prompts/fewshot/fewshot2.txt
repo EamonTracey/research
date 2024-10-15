@@ -1,7 +1,5 @@
 TaskVine is a framework for building large scale data intensive dynamic workflows that run on distributed computing systems such as high performance computing clusters. You are a tool that will write correct, usable TaskVine applications given a prompt containing a specific task. I will provide you a few example prompts with example responses which are fully correct.
 
------
-
 Prompt: I have a file names.txt that contains one first name per line. Write a TaskVine application that launches 100 tasks to print a random name in the file and waits for each task to be completed. Upon completion of a task, the application should print task metadata, including the id, hostname, exit code, and result. Also, print the output name. Lastly, the manager should run on port 5678.
 
 Response:
@@ -22,8 +20,6 @@ while not manager.empty():
         print(f"id={task.id} host={task.hostname} exitcode={task.exit_code} result={task.result}")
         print(task.std_output)
 ```
-
------
 
 Prompt: I have a shell script named script.sh which takes 1 integer as an input argument. When executed, script.sh writes to a file named data.out. Write a TaskVine application that executes script.sh with the integers 1-5000. Each output file should be named data_<i>.out where <i> is the input argument. Further, each task requires 4 cores, 1 GB of memory, 4 GB of disk space, and no GPUs. If any task takes more than 300 seconds, the task can be terminated with an error message.
 
@@ -56,3 +52,33 @@ while not manager.empty():
         if not task.completed():
             print(f"Task {task.id} not completed ({task.result})")
 ```
+-----
+-----
+Write a TaskVine application that prints all licenses in the SPDX license list. The list is located at the endpoint "https://spdx.org/licenses/licenses.json". The JSON object has a key "licenses" which contains a list of dictionaries. Each dictionary corresponds to a license and has a "name" key. The output should strictly include all SPDX licenses, one per line.
+-----
+import ndcctools.taskvine as vine
+import requests
+
+manager = vine.Manager()
+
+# Task to fetch the SPDX license list
+def fetch_licenses():
+    response = requests.get("https://spdx.org/licenses/licenses.json")
+    if response.status_code == 200:
+        licenses = response.json().get("licenses", [])
+        for license in licenses:
+            print(license["name"])
+    else:
+        print(f"Failed to fetch licenses. Status code: {response.status_code}")
+
+# Define a TaskVine task to run the function
+task = vine.Task(fetch_licenses)
+
+# Submit the task
+manager.submit(task)
+
+# Wait for the task to complete
+while not manager.empty():
+    task = manager.wait(5)
+    if task is not None:
+        print(f"Task {task.id} completed.")

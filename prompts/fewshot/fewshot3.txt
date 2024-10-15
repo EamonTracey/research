@@ -1,0 +1,292 @@
+TaskVine is a framework for building large scale data intensive dynamic workflows that run on distributed computing systems such as high performance computing clusters. You are a tool that will write correct, usable TaskVine applications given a prompt containing a specific task. I will provide you TaskVine documentation and then a few example prompts with example responses which are fully correct.
+
+Below is documentation for the TaskVine Python module. It contains the method signatures for the Manager and Task classes.
+
+ndcctools.taskvine.manager.Manager
+    __init__(self, port=9123, name=None, shutdown=False, run_info_path='vine-run-info', staging_path=None, ssl=None, init_fn=None, status_display_interval=None)
+    application_info(self)
+    blacklist(self, host)
+    blacklist_clear(self, host=None)
+    blacklist_with_timeout(self, host, timeout)
+    block_host(self, host)
+    block_host_with_timeout(self, host, timeout)
+    cancel_all(self)
+    cancel_by_category(self, category)
+    cancel_by_task_id(self, id)
+    cancel_by_task_tag(self, tag)
+    check_library_exists(self, library_name)
+    create_library_from_command(self, executable_path, name, env=None)
+    create_library_from_functions(self, library_name, *function_list, poncho_env=None, init_command=None, add_env=True, hoisting_modules=None)
+    create_library_from_serverized_files(self, library_name, library_path, env=None)
+    declare_buffer(self, buffer=None, cache=False, peer_transfer=True)
+    declare_chirp(self, server, source, ticket=None, env=None, cache=False, peer_transfer=True)
+    declare_file(self, path, cache=False, peer_transfer=True, unlink_when_done=False)
+    declare_minitask(self, minitask, source, cache=False, peer_transfer=True)
+    declare_poncho(self, package, cache=False, peer_transfer=True)
+    declare_starch(self, starch, cache=False, peer_transfer=True)
+    declare_temp(self)
+    declare_untar(self, tarball, cache=False, peer_transfer=True)
+    declare_url(self, url, cache=False, peer_transfer=True)
+    declare_xrootd(self, source, proxy=None, env=None, cache=False, peer_transfer=True)
+    disable_peer_transfers(self)
+    empty(self)
+    enable_disconnect_slow_workers(self, multiplier)
+    enable_disconnect_slow_workers_category(self, name, multiplier)
+    enable_monitoring(self, watchdog=True, time_series=False)
+    enable_peer_transfers(self)
+    fetch_file(self, file)
+    hungry(self)
+    initialize_categories(self, filename, rm)
+    install_library(self, task)
+    log_debug_app(self, entry)
+    log_txn_app(self, entry)
+    map(self, fn, seq, chunksize=1)
+    pair(self, fn, seq1, seq2, chunksize=1, env=None)
+    prune_file(self, file)
+    remote_map(self, fn, seq, library, name, chunksize=1)
+    remote_pair(self, fn, seq1, seq2, library, name, chunksize=1)
+    remote_tree_reduce(self, fn, seq, library, name, chunksize=2)
+    remove_file(self, file)
+    remove_library(self, name)
+    set_catalog_servers(self, catalogs)
+    set_category_autolabel_resource(self, category, resource, autolabel)
+    set_category_first_allocation_guess(self, category, rmd)
+    set_category_max_concurrent(self, category, max_concurrent)
+    set_category_mode(self, category, mode)
+    set_category_resources_max(self, category, rmd)
+    set_category_resources_min(self, category, rmd)
+    set_draining_by_hostname(self, hostname, drain_mode=True)
+    set_keepalive_interval(self, interval)
+    set_keepalive_timeout(self, timeout)
+    set_manager_preferred_connection(self, mode)
+    set_min_task_id(self, minid)
+    set_name(self, name)
+    set_password(self, password)
+    set_password_file(self, file)
+    set_priority(self, priority)
+    set_property(self, name, value)
+    set_resources_max(self, rmd)
+    set_resources_min(self, rmd)
+    set_runtime_info_path(self, dirname)
+    set_scheduler(self, scheduler)
+    stats_category(self, category)
+    status(self, request)
+    submit(self, task)
+    summarize_workers(self)
+    task_state(self, task_id)
+    tasks_left_count(self, ntasks)
+    tree_reduce(self, fn, seq, chunksize=2)
+    tune(self, name, value)
+    unblock_host(self, host=None)
+    undeclare_file(self, file)
+    undeclare_function(self, fn)
+    update_catalog(self)
+    wait(self, timeout='wait_forever')
+    wait_for_tag(self, tag, timeout='wait_forever')
+    wait_for_task_id(self, task_id, timeout='wait_forever')
+    workers_shutdown(self, n=0)
+ndcctools.taskvine.manager.Manager
+    __init__(self, port=9123, name=None, shutdown=False, run_info_path='vine-run-info', staging_path=None, ssl=None, init_fn=None, status_display_interval=None)
+    application_info(self)
+    blacklist(self, host)
+    blacklist_clear(self, host=None)
+    blacklist_with_timeout(self, host, timeout)
+    block_host(self, host)
+    block_host_with_timeout(self, host, timeout)
+    cancel_all(self)
+    cancel_by_category(self, category)
+    cancel_by_task_id(self, id)
+    cancel_by_task_tag(self, tag)
+    check_library_exists(self, library_name)
+    create_library_from_command(self, executable_path, name, env=None)
+    create_library_from_functions(self, library_name, *function_list, poncho_env=None, init_command=None, add_env=True, hoisting_modules=None)
+    create_library_from_serverized_files(self, library_name, library_path, env=None)
+    declare_buffer(self, buffer=None, cache=False, peer_transfer=True)
+    declare_chirp(self, server, source, ticket=None, env=None, cache=False, peer_transfer=True)
+    declare_file(self, path, cache=False, peer_transfer=True, unlink_when_done=False)
+    declare_minitask(self, minitask, source, cache=False, peer_transfer=True)
+    declare_poncho(self, package, cache=False, peer_transfer=True)
+    declare_starch(self, starch, cache=False, peer_transfer=True)
+    declare_temp(self)
+    declare_untar(self, tarball, cache=False, peer_transfer=True)
+    declare_url(self, url, cache=False, peer_transfer=True)
+    declare_xrootd(self, source, proxy=None, env=None, cache=False, peer_transfer=True)
+    disable_peer_transfers(self)
+    empty(self)
+    enable_disconnect_slow_workers(self, multiplier)
+    enable_disconnect_slow_workers_category(self, name, multiplier)
+    enable_monitoring(self, watchdog=True, time_series=False)
+    enable_peer_transfers(self)
+    fetch_file(self, file)
+    hungry(self)
+    initialize_categories(self, filename, rm)
+    install_library(self, task)
+    log_debug_app(self, entry)
+    log_txn_app(self, entry)
+    map(self, fn, seq, chunksize=1)
+    pair(self, fn, seq1, seq2, chunksize=1, env=None)
+    prune_file(self, file)
+    remote_map(self, fn, seq, library, name, chunksize=1)
+    remote_pair(self, fn, seq1, seq2, library, name, chunksize=1)
+    remote_tree_reduce(self, fn, seq, library, name, chunksize=2)
+    remove_file(self, file)
+    remove_library(self, name)
+    set_catalog_servers(self, catalogs)
+    set_category_autolabel_resource(self, category, resource, autolabel)
+    set_category_first_allocation_guess(self, category, rmd)
+    set_category_max_concurrent(self, category, max_concurrent)
+    set_category_mode(self, category, mode)
+    set_category_resources_max(self, category, rmd)
+    set_category_resources_min(self, category, rmd)
+    set_draining_by_hostname(self, hostname, drain_mode=True)
+    set_keepalive_interval(self, interval)
+    set_keepalive_timeout(self, timeout)
+    set_manager_preferred_connection(self, mode)
+    set_min_task_id(self, minid)
+    set_name(self, name)
+    set_password(self, password)
+    set_password_file(self, file)
+    set_priority(self, priority)
+    set_property(self, name, value)
+    set_resources_max(self, rmd)
+    set_resources_min(self, rmd)
+    set_runtime_info_path(self, dirname)
+    set_scheduler(self, scheduler)
+    stats_category(self, category)
+    status(self, request)
+    submit(self, task)
+    summarize_workers(self)
+    task_state(self, task_id)
+    tasks_left_count(self, ntasks)
+    tree_reduce(self, fn, seq, chunksize=2)
+    tune(self, name, value)
+    unblock_host(self, host=None)
+    undeclare_file(self, file)
+    undeclare_function(self, fn)
+    update_catalog(self)
+    wait(self, timeout='wait_forever')
+    wait_for_tag(self, tag, timeout='wait_forever')
+    wait_for_task_id(self, task_id, timeout='wait_forever')
+    workers_shutdown(self, n=0)
+
+Prompt: I have a file names.txt that contains one first name per line. Write a TaskVine application that launches 100 tasks to print a random name in the file and waits for each task to be completed. Upon completion of a task, the application should print task metadata, including the id, hostname, exit code, and result. Also, print the output name. Lastly, the manager should run on port 5678.
+
+Response:
+```
+import ndcctools.taskvine as vine
+
+manager = vine.Manager(5678)
+names = manager.declare_file("names.txt")
+
+for _ in range(100):
+    task = vine.Task("shuf -n 1 file")
+    task.add_input(names, "file")
+    manager.submit(task)
+
+while not manager.empty():
+    task = manager.wait(1)
+    if task is not None:
+        print(f"id={task.id} host={task.hostname} exitcode={task.exit_code} result={task.result}")
+        print(task.std_output)
+```
+
+Prompt: I have a shell script named script.sh which takes 1 integer as an input argument. When executed, script.sh writes to a file named data.out. Write a TaskVine application that executes script.sh with the integers 1-5000. Each output file should be named data_<i>.out where <i> is the input argument. Further, each task requires 4 cores, 1 GB of memory, 4 GB of disk space, and no GPUs. If any task takes more than 300 seconds, the task can be terminated with an error message.
+
+Response:
+```
+import ndcctools.taskvine as vine
+
+manager = vine.Manager()
+script = manager.declare_file("script.sh")
+
+for i in range(1, 5001):
+    task = vine.Task(f"./script.sh {i}")
+
+    task.add_input(script, "script.sh")
+    
+    output = manager.declare_file(f"data_{i}.out")
+    task.add_output(output, "data.out")
+
+    task.set_cores(4)
+    task.set_memory(1024)
+    task.set_disk(4096)
+    task.set_gpus(0)
+    task.set_time_max(300)
+
+    manager.submit(task)
+
+while not manager.empty():
+    task = manager.wait(5)
+    if task is not None:
+        if not task.completed():
+            print(f"Task {task.id} not completed ({task.result})")
+```
+-----
+-----
+Write a TaskVine application that prints all licenses in the SPDX license list. The list is located at the endpoint "https://spdx.org/licenses/licenses.json". The JSON object has a key "licenses" which contains a list of dictionaries. Each dictionary corresponds to a license and has a "name" key. The output should strictly include all SPDX licenses, one per line.
+-----
+import ndcctools.taskvine as vine
+import requests
+
+# Initialize TaskVine Manager
+manager = vine.Manager()
+
+# Declare the URL to fetch the SPDX license list
+url = "https://spdx.org/licenses/licenses.json"
+
+# Task to fetch and parse the SPDX licenses
+def fetch_and_print_licenses():
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        licenses = data.get("licenses", [])
+        for license in licenses:
+            print(license["name"])
+    else:
+        print("Failed to fetch SPDX license list")
+
+# Submit the task
+task = vine.Task(fetch_and_print_licenses)
+manager.submit(task)
+
+# Wait for the task to complete and print the output
+while not manager.empty():
+    task = manager.wait(1)
+    if task is not None:
+        if task.completed():
+            print(f"Task {task.id} completed successfully")
+        else:
+            print(f"Task {task.id} failed with exit code {task.exit_code}")
+-----
+Use declare_url
+-----
+import ndcctools.taskvine as vine
+import json
+
+# Initialize TaskVine Manager
+manager = vine.Manager()
+
+# Declare the SPDX license list URL
+spdx_url = manager.declare_url("https://spdx.org/licenses/licenses.json")
+
+# Create a task to fetch and process the SPDX licenses
+task = vine.Task("cat licenses.json")
+
+# Add the URL as an input to the task
+task.add_input(spdx_url, "licenses.json")
+
+# Submit the task to the manager
+manager.submit(task)
+
+# Wait for the task to complete and print the license names
+while not manager.empty():
+    task = manager.wait(1)
+    if task is not None:
+        if task.completed():
+            # Parse the JSON from the task's output
+            licenses_data = json.loads(task.std_output)
+            licenses = licenses_data.get("licenses", [])
+            for license in licenses:
+                print(license["name"])
+        else:
+            print(f"Task {task.id} failed with exit code {task.exit_code}")
