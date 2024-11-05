@@ -1,16 +1,17 @@
 import inspect
 import importlib
 
+
 def extract_class_signatures(module_name: str, class_name: str):
     # Dynamically import the module
     module = importlib.import_module(module_name)
-    
+
     # Get the class.
     cls = getattr(module, class_name)
-    
+
     # Get the class methods
     methods = inspect.getmembers(cls, predicate=inspect.isfunction)
-    
+
     # Extract the method signatures.
     signatures = {}
     for name, method in methods:
@@ -22,7 +23,9 @@ def extract_class_signatures(module_name: str, class_name: str):
 
     return signatures
 
-manager_signatures = extract_class_signatures("ndcctools.taskvine.manager", "Manager")
+
+manager_signatures = extract_class_signatures("ndcctools.taskvine.manager",
+                                              "Manager")
 task_signatures = extract_class_signatures("ndcctools.taskvine.task", "Task")
 
 print("ndcctools.taskvine.manager.Manager")

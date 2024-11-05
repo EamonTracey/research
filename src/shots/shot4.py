@@ -23,7 +23,7 @@ for i in range(1, 5001):
     # object on the manager machine. This copies script.sh as an input to the
     # task.
     task.add_input(script, "script.sh")
-    
+
     # Declare a file named data_<i>.out on the manager machine where <i> is the
     # input integer for this loop iteration.
     output = manager.declare_file(f"data_{i}.out")
