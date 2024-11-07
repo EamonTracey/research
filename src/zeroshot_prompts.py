@@ -3,8 +3,7 @@ import json
 
 from openai import OpenAI
 
-CODING_SYSTEM = ("You are a helpful coding assistant. "
-                 "Provide strictly the requested code.")
+CODING_SYSTEM = "You are a helpful TaskVine coding assistant. Provide strictly the requested code using the ndcctools.taskvine library."
 
 
 def zeroshot(client: OpenAI, prompt: dict, model: str,
@@ -70,7 +69,7 @@ if __name__ == "__main__":
     parser.add_argument("-m",
                         "--model",
                         type=str,
-                        default="gpt-4o-mini",
+                        default="gpt-4o",
                         help="The LLM model to use.")
     parser.add_argument("-o",
                         "--output",
