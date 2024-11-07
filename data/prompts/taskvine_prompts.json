@@ -1,42 +1,42 @@
 [
     {
         "id": "taskvine0",
-        "prompt": "Write a Python TaskVine application to get the current date on a worker machine. The date must be stored to an output file named \"current_date\"."
+        "content": "Write a Python TaskVine application to get the current date on a worker machine. The date must be stored to an output file named \"current_date\"."
     },
     {
         "id": "taskvine1",
-        "prompt": "Write a Python TaskVine application to count the number of times the keywords \"wealth\", \"nation\", \"labour\", \"price\", \"nature\", and \"commodity\" appear in Adam Smith's Wealth of Nations. The text is available at \"https://www.gutenberg.org/cache/epub/3300/pg3300.txt\"."
+        "content": "Write a Python TaskVine application to count the number of times the keywords \"wealth\", \"nation\", \"labour\", \"price\", \"nature\", and \"commodity\" appear in Adam Smith's Wealth of Nations. The text is available at \"https://www.gutenberg.org/cache/epub/3300/pg3300.txt\"."
     },
     {
         "id": "taskvine2",
-        "prompt": "Write a Python TaskVine application to run my program \"script.sh\" with various input arguments and organizes all output data. \"script.sh\" takes, as input, an integer and two files. \"script.sh\" outputs a file named \"output{i}.txt\" where \"{i}\" is the input integer. The application must run \"script.sh\" with input integers 1-1000 and input files \"file1.input\" and \"file2.input\" which are stored in the directory \"script_inputs\". The application must store all output files in a directory named \"script_outputs\"."
+        "content": "Write a Python TaskVine application to run my program \"script.sh\" with various input arguments and organizes all output data. \"script.sh\" takes, as input, an integer and two files. \"script.sh\" outputs a file named \"output{i}.txt\" where \"{i}\" is the input integer. The application must run \"script.sh\" with input integers 1-1000 and input files \"file1.input\" and \"file2.input\" which are stored in the directory \"script_inputs\". The application must store all output files in a directory named \"script_outputs\"."
     },
     {
         "id": "taskvine3",
-        "prompt": "Write a Python TaskVine application to execute a pipeline of shell scripts. I have the script \"script1.sh\" which outputs a file named \"intermediary.out\" upon completion. I also have the scripts \"script2.sh\" and \"script3.sh\"  which both accept an input file as a command line argument. \"script2.sh\" and \"script3.sh\" must both receive \"intermediary.out\" as the input. Finally, \"script2.sh\" and \"script3.sh\" output files named \"script2.out\" and \"script3.out\", respectively. Save these outputs files on the host machine. \"intermediary.out\" need not be saved to the host machine."
+        "content": "Write a Python TaskVine application to execute a pipeline of shell scripts. I have the script \"script1.sh\" which outputs a file named \"intermediary.out\" upon completion. I also have the scripts \"script2.sh\" and \"script3.sh\"  which both accept an input file as a command line argument. \"script2.sh\" and \"script3.sh\" must both receive \"intermediary.out\" as the input. Finally, \"script2.sh\" and \"script3.sh\" output files named \"script2.out\" and \"script3.out\", respectively. Save these outputs files on the host machine. \"intermediary.out\" need not be saved to the host machine."
     },
     {
         "id": "taskvine4",
-        "prompt": "Write a Python TaskVine application to run my GPU-accelerated program. The program binary is stored at \"./train_demo\". The program requires that the worker machine has the feature \"NVIDIA RTX 4090\". Upon completion, the program outputs \"model.tar.gz\". The output file must be saved to the host machine."
+        "content": "Write a Python TaskVine application to run my GPU-accelerated program. The program binary is stored at \"./train_demo\". The program requires that the worker machine has the feature \"NVIDIA RTX 4090\". Upon completion, the program outputs \"model.tar.gz\". The output file must be saved to the host machine."
     },
     {
         "id": "taskvine5",
-        "prompt": "Write a Python TaskVine application to compile and test my project stored at \"complex_project/\". To compile the project, run the \"make all\" command in the project's root directory. Then, to test the project, run \"make test\". The compilation and test must use at most 4 cores, 1024 MB of memory, and 2048 MB of disk. Enable resource monitoring to track resource usage, but do not terminate the task if it overuses resources. When the task completes, print the task's exit code and standard output. For each resource that the task overused, print the resource and by how much it overused."
+        "content": "Write a Python TaskVine application to compile and test my project stored at \"complex_project/\". To compile the project, run the \"make all\" command in the project's root directory. Then, to test the project, run \"make test\". The compilation and test must use at most 4 cores, 1024 MB of memory, and 2048 MB of disk. Enable resource monitoring to track resource usage, but do not terminate the task if it overuses resources. When the task completes, print the task's exit code and standard output. For each resource that the task overused, print the resource and by how much it overused."
     },
     {
         "id": "taskvine6",
-        "prompt": "Write a Python TaskVine application that executes multiple programs with different levels of resource requirements. The two task categories must be named \"intensive\" and \"light\". The \"intensive\" tasks require 8 cores and 16 GB of memory. The \"light\" tasks require 1 core and 2 GB of memory. In the intensive category, submit 10 tasks to execute the shell script \"intensive.sh\". In the light category, submit 100 tasks to execute the shell script \"light.sh\" Print the standard output of each task upon completion."
+        "content": "Write a Python TaskVine application that executes multiple programs with different levels of resource requirements. The two task categories must be named \"intensive\" and \"light\". The \"intensive\" tasks require 8 cores and 16 GB of memory. The \"light\" tasks require 1 core and 2 GB of memory. In the intensive category, submit 10 tasks to execute the shell script \"intensive.sh\". In the light category, submit 100 tasks to execute the shell script \"light.sh\" Print the standard output of each task upon completion."
     },
     {
         "id": "taskvine7",
-        "prompt": "Write a Python TaskVine application to perform matrix inversion and transposition. The matrix computations must be defined in Python functions and added to a TaskVine library called \"matrix_library\". The user must specify the size, m x n,  of the matrix and the number of matrices, i, on which to perform computation. The application must randomly generate i matrices and for each matrix, print the matrix, print the inverse matrix, and print the transposed matrix."
+        "content": "Write a Python TaskVine application to perform matrix inversion and transposition. The matrix computations must be defined in Python functions and added to a TaskVine library called \"matrix_library\". The user must specify the size, m x n,  of the matrix and the number of matrices, i, on which to perform computation. The application must randomly generate i matrices and for each matrix, print the matrix, print the inverse matrix, and print the transposed matrix."
     },
     {
         "id": "taskvine8",
-        "prompt": "Write a Python Taskvine application to fetch the titles of multiple news webpages. The webpage contents must be downloaded asynchronously using the TaskVine futures executor. Print the URL and title of each webpage in order of the completion of each task. The webpages I am interested in are \"https://abcnews.com\", \"https://apnews.com\", \"https://axios.com\", \"https://cnn.com\", \"https://nbcnews.com\", \"https://nytimes.com\", \"https://reuters.com\", \"https://washingtonpost.com\", \"https://wsj.com\"."
+        "content": "Write a Python Taskvine application to fetch the titles of multiple news webpages. The webpage contents must be downloaded asynchronously using the TaskVine futures executor. Print the URL and title of each webpage in order of the completion of each task. The webpages I am interested in are \"https://abcnews.com\", \"https://apnews.com\", \"https://axios.com\", \"https://cnn.com\", \"https://nbcnews.com\", \"https://nytimes.com\", \"https://reuters.com\", \"https://washingtonpost.com\", \"https://wsj.com\"."
     },
     {
         "id": "taskvine9",
-        "prompt": "Write a Python TaskVine application to get the current date on a worker machine. The date must be stored to an output file named \"current_date\". To prevent an unwanted worker from connecting to the manager, use the password stored in the file \"taskvine.password\". Further, encrypt communication between the manager and worker with SSL using the \"key.pem\" and \"certificate.pem\" files."
+        "content": "Write a Python TaskVine application to get the current date on a worker machine. The date must be stored to an output file named \"current_date\". To prevent an unwanted worker from connecting to the manager, use the password stored in the file \"taskvine.password\". Further, encrypt communication between the manager and worker with SSL using the \"key.pem\" and \"certificate.pem\" files."
     }
 ]
