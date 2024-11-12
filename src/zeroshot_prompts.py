@@ -3,10 +3,13 @@ import json
 
 from openai import OpenAI
 
-CODING_SYSTEM = "You are a helpful TaskVine coding assistant. Provide strictly the requested code using the ndcctools.taskvine library."
+CODING_SYSTEM = (
+    "You are a helpful TaskVine coding assistant. "
+    "Provide strictly the requested code using the ndcctools.taskvine library."
+)
 
 
-def zeroshot(client: OpenAI, prompt: dict, model: str,
+def zeroshot(client: OpenAI, prompt: dict, model: str, temperature: float,
              responses: int) -> list[dict]:
     completion = client.chat.completions.create(messages=[{
         "role":
@@ -20,6 +23,7 @@ def zeroshot(client: OpenAI, prompt: dict, model: str,
         prompt["content"]
     }],
                                                 model=model,
+                                                temperature=temperature,
                                                 n=responses)
 
     results = []
@@ -34,6 +38,7 @@ def zeroshot(client: OpenAI, prompt: dict, model: str,
 def main(args: argparse.Namespace):
     prompts = args.prompts
     model = args.model
+    temperature = args.temperature
     responses = args.responses
     output = args.output
 
@@ -47,7 +52,7 @@ def main(args: argparse.Namespace):
     # Perform the zeroshot prompting.
     results = []
     for prompt in prompts:
-        result = zeroshot(client, prompt, model, responses)
+        result = zeroshot(client, prompt, model, temperature, responses)
         results.extend(result)
 
     # Write to the output file.
@@ -71,16 +76,22 @@ if __name__ == "__main__":
                         type=str,
                         default="gpt-4o",
                         help="The LLM model to use.")
-    parser.add_argument("-o",
-                        "--output",
-                        type=str,
-                        default="zeroshot_prompts.json",
-                        help="The path to the output file.")
+    parser.add_argument(
+        "-t",
+        "--temperature",
+        type=float,
+        default=0,
+        help="The temperature with which to generate responses (0-1).")
     parser.add_argument(
         "-r",
         "--responses",
         type=int,
         default=1,
         help="Number of responses to generate for each prompt.")
+    parser.add_argument("-o",
+                        "--output",
+                        type=str,
+                        default="zeroshot_prompts.json",
+                        help="The path to the output file.")
     args = parser.parse_args()
     main(args)
