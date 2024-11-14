@@ -3,7 +3,7 @@ import json
 
 from openai import OpenAI
 
-def prompt(client: OpenAI, prompt: dict, system: str, model: str, temperature: float,
+def execute_prompt(client: OpenAI, prompt: dict, system: str, model: str, temperature: float,
              responses: int) -> list[dict]:
     completion = client.chat.completions.create(messages=[{
         "role":
@@ -46,14 +46,14 @@ def main(args: argparse.Namespace):
     client = OpenAI()
 
     # Perform the prompting.
-    results = []
+    result = {"system": system, "prompts": []}
     for prompt in prompts:
-        result = prompt(client, prompt, system, model, temperature, responses)
-        results.extend(result)
+        prompt = execute_prompt(client, prompt, system, model, temperature, responses)
+        result["prompts"].extend(prompt)
 
     # Write to the output file.
     with open(output, "w") as fp:
-        json.dump(results, fp, indent=4)
+        json.dump(result, fp, indent=4)
         fp.write("\n")
 
 
