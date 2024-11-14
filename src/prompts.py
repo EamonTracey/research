@@ -3,19 +3,13 @@ import json
 
 from openai import OpenAI
 
-CODING_SYSTEM = (
-    "You are a helpful TaskVine coding assistant. "
-    "Provide strictly the requested code using the ndcctools.taskvine library."
-)
-
-
-def zeroshot(client: OpenAI, prompt: dict, model: str, temperature: float,
+def prompt(client: OpenAI, prompt: dict, system: str, model: str, temperature: float,
              responses: int) -> list[dict]:
     completion = client.chat.completions.create(messages=[{
         "role":
         "system",
         "content":
-        CODING_SYSTEM
+        system
     }, {
         "role":
         "user",
@@ -45,14 +39,16 @@ def main(args: argparse.Namespace):
     # Load prompts from file.
     with open(prompts, "r") as fp:
         prompts = json.load(fp)
+    system = prompts["system"]
+    prompts = prompts["prompts"]
 
     # Create the OpenAI client.
     client = OpenAI()
 
-    # Perform the zeroshot prompting.
+    # Perform the prompting.
     results = []
     for prompt in prompts:
-        result = zeroshot(client, prompt, model, temperature, responses)
+        result = prompt(client, prompt, system, model, temperature, responses)
         results.extend(result)
 
     # Write to the output file.
@@ -63,13 +59,13 @@ def main(args: argparse.Namespace):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Perform zeroshot prompt code generation with an LLM.",
+        description="Perform prompt code generation with an LLM.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "prompts",
         type=str,
         help=
-        "Path to the JSON file containing a list of prompts {\"id\": ..., \"content\": ...}."
+        "Path to the JSON file containing the system and a list of prompts {\"system\": ..., \"prompts\": [{\"id\": ..., \"content\": ...}, ...]}."
     )
     parser.add_argument("-m",
                         "--model",
@@ -91,7 +87,7 @@ if __name__ == "__main__":
     parser.add_argument("-o",
                         "--output",
                         type=str,
-                        default="zeroshot_prompts.json",
+                        default="prompts_output.json",
                         help="The path to the output file.")
     args = parser.parse_args()
     main(args)
