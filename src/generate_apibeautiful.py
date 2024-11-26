@@ -30,6 +30,12 @@ for name, url in URLS.items():
 
             # Extract the parameters.
             parameters = []
+            params_section = memdoc.find("dl", class_="params")
+            if params_section:
+                for row in params_section.find_all("tr"):
+                    param_name = row.find("td", class_="paramname").text.strip()
+                    param_desc = row.find_all("td")[1].text.strip() if len(row.find_all("td")) > 1 else ""
+                    parameters.append({"name": param_name, "description": param_desc})
 
             methods.append({
                 "name": method_name,
