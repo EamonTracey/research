@@ -1,0 +1,1 @@
+A key issue with providing HTML pages is that the models and APIs have token limits. HTML wastes a ton of tokens.

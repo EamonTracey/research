@@ -2,10 +2,10 @@ import requests
 
 URLS = {
         "ndcctools.taskvine.manager.Manager": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1manager_1_1Manager.html",
-#        "": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1Task.html",
-#        "": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1LibraryTask.html",
-#        "": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1PythonTask.html",
-#        "": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1FunctionCall.html",
+        "ndcctools.taskvine.task.Task": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1Task.html",
+        #"ndcctools.taskvine.task.LibraryTask": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1LibraryTask.html",
+        #"ndcctools.taskvine.task.PythonTask": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1PythonTask.html",
+        #"ndcctools.taskvine.task.FunctionCall": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1FunctionCall.html",
 }
 
 
