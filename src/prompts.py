@@ -1,23 +1,22 @@
 import argparse
 import json
+from typing import Union
 
 from openai import OpenAI
 
 
-def execute_prompt(client: OpenAI, prompt: dict, system: str, model: str,
-                   temperature: float, responses: int) -> list[dict]:
-    completion = client.chat.completions.create(messages=[{
-        "role": "system",
-        "content": system
-    }, {
-        "role":
-        "user",
-        "content":
-        prompt["content"]
-    }],
+def execute_prompt(client: OpenAI, prompt: dict, system: Union[list[str], str],
+                   model: str, temperature: float) -> list[dict]:
+    messages = []
+    if isinstance(system, list):
+        for s in system:
+            messages.append({"role": "system", "content": s})
+    else:
+        messages.append({"role": "system", "content": system})
+    messages.append({"role": "user", "content": prompt["content"]})
+    completion = client.chat.completions.create(messages=messages,
                                                 model=model,
-                                                temperature=temperature,
-                                                n=responses)
+                                                temperature=temperature)
 
     results = []
     for choice in completion.choices:
@@ -32,7 +31,6 @@ def main(args: argparse.Namespace):
     prompts = args.prompts
     model = args.model
     temperature = args.temperature
-    responses = args.responses
     output = args.output
 
     # Load prompts from file.
@@ -47,8 +45,7 @@ def main(args: argparse.Namespace):
     # Perform the prompting.
     result = {"system": system, "prompts": []}
     for prompt in prompts:
-        prompt = execute_prompt(client, prompt, system, model, temperature,
-                                responses)
+        prompt = execute_prompt(client, prompt, system, model, temperature)
         result["prompts"].extend(prompt)
 
     # Write to the output file.
@@ -78,12 +75,6 @@ if __name__ == "__main__":
         type=float,
         default=0,
         help="The temperature with which to generate responses (0-1).")
-    parser.add_argument(
-        "-r",
-        "--responses",
-        type=int,
-        default=1,
-        help="Number of responses to generate for each prompt.")
     parser.add_argument("-o",
                         "--output",
                         type=str,
