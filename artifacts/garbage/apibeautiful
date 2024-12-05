@@ -1,0 +1,11 @@
+ndcctools.taskvine.manager.Manager
+
+name()
+    Get the project name of the manager.
+port()
+    Get the listening port of the manager.
+using_ssl()
+    Whether the manager is using ssl to talk to workers.
+stats_category(category)
+    Get the task statistics for the given category.
+    category - A category name.
