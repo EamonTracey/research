@@ -6,10 +6,10 @@ import requests
 
 URLS = {
         "ndcctools.taskvine.manager.Manager": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1manager_1_1Manager.html",
-        #"ndcctools.taskvine.task.Task": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1Task.html",
-        #"ndcctools.taskvine.task.LibraryTask": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1LibraryTask.html",
-        #"ndcctools.taskvine.task.PythonTask": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1PythonTask.html",
-        #"ndcctools.taskvine.task.FunctionCall": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1FunctionCall.html",
+        "ndcctools.taskvine.task.Task": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1Task.html",
+        "ndcctools.taskvine.task.LibraryTask": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1LibraryTask.html",
+        "ndcctools.taskvine.task.PythonTask": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1PythonTask.html",
+        "ndcctools.taskvine.task.FunctionCall": "https://cctools.readthedocs.io/en/latest/api/html/classndcctools_1_1taskvine_1_1task_1_1FunctionCall.html",
 }
 
 for name, url in URLS.items():
@@ -22,7 +22,7 @@ for name, url in URLS.items():
         if memname:
             # Extract the method.
             method_signature = memname.text.strip()
-            method_name = method_signature.split("(")[0].split(".")[-1]  # Extract the method name
+            method_name = method_signature.split("(")[0].split(".")[-1]
             
             # Extract the description.
             memdoc = memitem.find("div", class_="memdoc")
@@ -43,5 +43,10 @@ for name, url in URLS.items():
                 "parameters": parameters
             })
 
-    methods = json.dumps(methods, indent=4)
-    print(methods)
+    print(name)
+    for method in methods:
+        method["description"] = method["description"].replace("\n", " ")
+        print(f"  {method['name']}({', '.join([p['name'] for p in method['parameters']])}) - {method['description']}")
+        for parameter in method["parameters"]:
+            parameter["description"] = parameter["description"].replace("\n", " ")
+            print(f"    {parameter['name']} - {parameter['description']}")

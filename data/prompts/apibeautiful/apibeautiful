@@ -1,0 +1,444 @@
+ndcctools.taskvine.manager.Manager
+  __init__(self, port, name, shutdown, run_info_path, staging_path, ssl, init_fn, status_display_interval) - Create a new manager.
+    self - Reference to the current manager object.
+    port - The port number to listen on. If zero, then a random port is chosen. A range of possible ports (low, hight) can be also specified instead of a single integer. Default is 9123
+    name - The project name to use.
+    shutdown - Automatically shutdown workers when manager is finished. Disabled by default.
+    run_info_path - Directory to write log (and staging if staging_path not given) files per run. If None, defaults to "vine-run-info"
+    staging_path - Directory to write temporary files. Defaults to run_info_path if not given.
+    ssl - A tuple of filenames (ssl_key, ssl_cert) in pem format, or True. If not given, then TSL is not activated. If True, a self-signed temporary key and cert are generated.
+    init_fn - Function applied to the newly created manager at initialization.
+    status_display_interval - Number of seconds between updates to the jupyter status display. None, or less than 1 disables it.
+  name() - Get the project name of the manager.
+  port() - Get the listening port of the manager.
+  using_ssl() - Whether the manager is using ssl to talk to workers.
+  logging_directory() - Get the logs directory of the manager.
+  staging_directory() - Get the staging directory of the manager.
+  library_logging_directory() - Get the library logs directory of the manager.
+  cache_directory() - Get the caching directory of the manager.
+  stats() - Get manager statistics.
+  stats_category(self, category) - Get the task statistics for the given category.
+    self - Reference to the current manager object.
+    category - A category name. For example: s = q.stats_category("my_category") >>> print(s)  The fields in ndcctools.taskvine.manager.Manager.stats can also be individually accessed through this call. For example: >>> print(s.tasks_waiting)
+  status(self, request) - Get manager information as list of dictionaries.
+    self - Reference to the current manager object
+    request - One of: "manager", "tasks", "workers", or "categories" For example: import json tasks_info = q.status("tasks")
+  summarize_workers(self) - Get resource statistics of workers connected.
+    self - Reference to the current manager object.
+  update_catalog(self) - Send update to catalog server.
+    self - Reference to the current manager object.
+  set_category_mode(self, category, mode) - Turn on or off first-allocation labeling for a given category.
+    self - Reference to the current manager object.
+    category - A category name. If None, sets the mode by default for newly created categories.
+    mode - One of: "fixed" Task fails (default). "max" If maximum values are specified for cores, memory, disk, and gpus (e.g. via ndcctools.taskvine.manager.Manager.set_category_resources_max or ndcctools.taskvine.task.Task.set_memory), and one of those resources is exceeded, the task fails. Otherwise it is retried until a large enough worker connects to the manager, using the maximum values specified, and the maximum values so far seen for resources not specified. Use ndcctools.taskvine.task.Task.set_retries to set a limit on the number of times manager attemps to complete the task. "min waste" As above, but manager tries allocations to minimize resource waste. "max throughput" As above, but manager tries allocations to maximize throughput.
+  set_category_autolabel_resource(self, category, resource, autolabel) - Turn on or off first-allocation labeling for a given category and resource.
+    self - Reference to the current manager object.
+    category - A category name.
+    resource - A resource name.
+    autolabel - True/False for on/off.
+  task_state() - Get current task state.
+  enable_monitoring(self, watchdog, time_series) - Enables resource monitoring for tasks.
+    self - Reference to the current manager object.
+    watchdog - If not 0, kill tasks that exhaust declared resources.
+    time_series - If not 0, generate a time series of resources per task in VINE_RUNTIME_INFO_DIR/vine-logs/time-series/ (WARNING: for long running tasks these files may reach gigabyte sizes. This function is mostly used for debugging.)
+  enable_peer_transfers(self) - Enable P2P worker transfer functionality.
+    self - Reference to the current manager object.
+  disable_peer_transfers(self) - Disable P2P worker transfer functionality.
+    self - Reference to the current manager object.
+  enable_disconnect_slow_workers(self) - Change the project name for the given manager.
+    self - Reference to the current manager object.
+  enable_disconnect_slow_workers_category(self, name, multiplier) - Enable disconnect slow workers functionality for a given manager.
+    self - Reference to the current manager object.
+    name - Name of the category.
+    multiplier - The multiplier of the average task time at which point to disconnect a worker; disabled if less than one (see ndcctools.taskvine.manager.Manager.enable_disconnect_slow_workers)
+  set_draining_by_hostname(self, hostname, drain_mode) - Turn on or off draining mode for workers at hostname.
+    self - Reference to the current manager object.
+    hostname - The hostname the host running the workers.
+    drain_mode - If True, no new tasks are dispatched to workers at hostname, and empty workers are shutdown. Else, workers works as usual.
+  empty(self) - Determine whether there are any known tasks managerd, running, or waiting to be collected.
+    self - Reference to the current manager object.
+  hungry(self) - Determine whether the manager can support more tasks.
+    self - Reference to the current manager object.
+  set_scheduler(self, scheduler) - Set the worker selection scheduler for manager.
+    self - Reference to the current manager object.
+    scheduler - One of the following schedulers to use in assigning a task to a worker. See vine_schedule_t for possible values.
+  set_name(self, name) - Change the project name for the given manager.
+    self - Reference to the current manager object.
+    name - The new project name.
+  set_manager_preferred_connection(self, mode) - Set the preference for using hostname over IP address to connect.
+    self - Reference to the current manager object.
+    mode - An string to indicate using 'by_ip', 'by_hostname' or 'by_apparent_ip'.
+  set_min_task_id(self, minid) - Set the minimum task_id of future submitted tasks.
+    self - Reference to the current manager object.
+    minid - Minimum desired task_id
+  set_priority(self, priority) - Change the project priority for the given manager.
+    self - Reference to the current manager object.
+    priority - An integer that presents the priorty of this manager manager. The higher the value, the higher the priority.
+  tasks_left_count(self, ntasks) - Specify the number of tasks not yet submitted to the manager.
+    self - Reference to the current manager object.
+    ntasks - Number of tasks yet to be submitted.
+  set_catalog_servers(self, catalogs) - Specify the catalog servers the manager should report to.
+    self - Reference to the current manager object.
+    catalogs - The catalog servers given as a comma delimited list of hostnames or hostname:port
+  set_property(m, name, value) - Add a global property to the manager which will be included in periodic reports to the catalog server and other telemetry destinations.
+    m - A manager object
+    name - The name of the property.
+    value - The value of the property.
+  set_runtime_info_path(self, dirname) - Specify a directory to write logs and staging files.
+    self - Reference to the current manager object.
+    dirname - A directory name
+  set_password(self, password) - Add a mandatory password that each worker must present.
+    self - Reference to the current manager object.
+    password - The password.
+  set_password_file(self, file) - Add a mandatory password file that each worker must present.
+    self - Reference to the current manager object.
+    file - Name of the file containing the password.
+  set_resources_max(self, rmd) - Specifies the maximum resources allowed for the default category.
+    self - Reference to the current manager object.
+    rmd - Dictionary indicating maximum values. See ndcctools.taskvine.task.Task.resources_measured for possible fields. For example: >>> # A maximum of 4 cores is found on any worker: >>> q.set_resources_max({'cores': 4}) >>> # A maximum of 8 cores, 1GB of memory, and 10GB disk are found on any worker: >>> q.set_resources_max({'cores': 8, 'memory':  1024, 'disk': 10240})
+  set_resources_min(self, rmd) - Specifies the minimum resources allowed for the default category.
+    self - Reference to the current manager object.
+    rmd - Dictionary indicating minimum values. See ndcctools.taskvine.task.Task.resources_measured for possible fields. For example: >>> # A minimum of 2 cores is found on any worker: >>> q.set_resources_min({'cores': 2}) >>> # A minimum of 4 cores, 512MB of memory, and 1GB disk are found on any worker: >>> q.set_resources_min({'cores': 4, 'memory':  512, 'disk': 1024})
+  set_category_resources_max(self, category, rmd) - Specifies the maximum resources allowed for the given category.
+    self - Reference to the current manager object.
+    category - Name of the category.
+    rmd - Dictionary indicating maximum values. See ndcctools.taskvine.task.Task.resources_measured for possible fields. For example: >>> # A maximum of 4 cores may be used by a task in the category: >>> q.set_category_resources_max("my_category", {'cores': 4}) >>> # A maximum of 8 cores, 1GB of memory, and 10GB may be used by a task: >>> q.set_category_resources_max("my_category", {'cores': 8, 'memory':  1024, 'disk': 10240})
+  set_category_resources_min(self, category, rmd) - Specifies the minimum resources allowed for the given category.
+    self - Reference to the current manager object.
+    category - Name of the category.
+    rmd - Dictionary indicating minimum values. See ndcctools.taskvine.task.Task.resources_measured for possible fields. For example: >>> # A minimum of 2 cores is found on any worker: >>> q.set_category_resources_min("my_category", {'cores': 2}) >>> # A minimum of 4 cores, 512MB of memory, and 1GB disk are found on any worker: >>> q.set_category_resources_min("my_category", {'cores': 4, 'memory':  512, 'disk': 1024})
+  set_category_first_allocation_guess(self, category, rmd) - Specifies the first-allocation guess for the given category.
+    self - Reference to the current manager object.
+    category - Name of the category.
+    rmd - Dictionary indicating maximum values. See ndcctools.taskvine.task.Task.resources_measured for possible fields. For example: >>> # Tasks are first tried with 4 cores: >>> q.set_category_first_allocation_guess("my_category", {'cores': 4}) >>> # Tasks are first tried with 8 cores, 1GB of memory, and 10GB: >>> q.set_category_first_allocation_guess("my_category", {'cores': 8, 'memory':  1024, 'disk': 10240})
+  set_category_max_concurrent(self, category, max_concurrent) - Specifies the maximum resources allowed for the given category.
+    self - Reference to the current work queue object.
+    category - Name of the category.
+    max_concurrent - Number of maximum concurrent tasks. Less then 0 means unlimited (this is the default). For example: >>> # Do not run more than 5 tasks of "my_category" concurrently: >>> q.set_category_max_concurrent("my_category", 5)
+  initialize_categories(self, rm, filename) - Initialize first value of categories.
+    self - Reference to the current manager object.
+    rm - Dictionary indicating maximum values. See ndcctools.taskvine.task.Task.resources_measured for possible fields.
+    filename - JSON file with resource summaries.
+  cancel_by_task_id(self, id) - Cancel task identified by its task_id.
+    self - Reference to the current manager object.
+    id - The task_id returned from ndcctools.taskvine.manager.Manager.submit.
+  cancel_by_task_tag(self, tag) - Cancel task identified by its tag.
+    self - Reference to the current manager object.
+    tag - The tag assigned to task using ndcctools.taskvine.task.Task.set_tag.
+  cancel_by_category(self, category) - Cancel all tasks of the given category.
+    self - Reference to the current manager object.
+    category - The name of the category to cancel.
+  cancel_all(self) - Cancel all tasks.
+    self - Reference to the current manager object.
+  workers_shutdown(self, n) - Shutdown workers connected to manager.
+    self - Reference to the current manager object.
+    n - The number to shutdown. 0 shutdowns all workers
+  block_host(self, host) - Block workers running on host from working for the manager.
+    self - Reference to the current manager object.
+    host - The hostname the host running the workers.
+  blacklist() - Replaced by ndcctools.taskvine.manager.Manager.block_host.
+  block_host_with_timeout(self, host, timeout) - Block workers running on host for the duration of the given timeout.
+    self - Reference to the current manager object.
+    host - The hostname the host running the workers.
+    timeout - How long this block entry lasts (in seconds). If less than 1, block indefinitely.
+  blacklist_with_timeout() - See ndcctools.taskvine.manager.Manager.block_host_with_timeout.
+  unblock_host(self, host) - Unblock given host, of all hosts if host not given.
+    self - Reference to the current manager object.
+    host - The of the hostname the host.
+  blacklist_clear() - See ndcctools.taskvine.manager.Manager.unblock_host.
+  set_keepalive_interval(self, interval) - Change keepalive interval for a given manager.
+    self - Reference to the current manager object.
+    interval - Minimum number of seconds to wait before sending new keepalive checks to workers.
+  set_keepalive_timeout(self, timeout) - Change keepalive timeout for a given manager.
+    self - Reference to the current manager object.
+    timeout - Minimum number of seconds to wait for a keepalive response from worker before marking it as dead.
+  tune(self, name, value) - Tune advanced parameters.
+    self - Reference to the current manager object.
+    name - The name fo the parameter to tune. Can be one of following: "attempt-schedule-depth" The amount of tasks to attempt scheduling on each pass of send_one_task in the main loop. (default=100) "category-steady-n-tasks" Set the number of tasks considered when computing category buckets. "default-transfer-rate" The assumed network bandwidth used until sufficient data has been collected. (1MB/s) "disconnect-slow-workers-factor" Set the multiplier of the average task time at which point to disconnect a worker; disabled if less than 1. (default=0) "hungry-minimum" Mimimum number of tasks to consider manager not hungry. (default=10) "hungry-minimum-factor" Queue is hungry if number of waiting tasks is less than hungry-minumum-factor x (number of workers) | 2 | "immediate-recovery" If set to 1, create recovery tasks for temporary files as soon as their worker disconnects. Otherwise, create recovery tasks only if the temporary files are used as input when trying to dispatch another task. "keepalive-interval" Set the minimum number of seconds to wait before sending new keepalive checks to workers. (default=300) "keepalive-timeout" Set the minimum number of seconds to wait for a keepalive response from worker before marking it as dead. (default=30) "long-timeout" Set the minimum timeout in seconds when sending a large message to a single worker. (default=3600) "max-retrievals" Sets the max number of tasks to retrieve per manager wait(). If less than 1, the manager prefers to retrieve all completed tasks before dispatching new tasks to workers. (default=1) "min-transfer-timeout" Set the minimum number of seconds to wait for files to be transferred to or from a worker. (default=10) "monitor-interval" Parameter to change how frequently the resource monitor records resource consumption of a task in a times series, if this feature is enabled. See enable_monitoring. "prefer-dispatch" If 1, try to dispatch tasks even if there are retrieved tasks ready to be reported as done. (default=0) "proportional-resources" If set to 0, do not assign resources proportionally to tasks. The default is to use proportions. "proportional-whole-tasks" Round up resource proportions such that only an integer number of tasks could be fit in the worker. The default is to use proportions. "ramp-down-heuristic" If set to 1 and there are more workers than tasks waiting, then tasks are allocated all the free resources of a worker large enough to run them. If monitoring watchdog is not enabled, then this heuristic has no effect. (default=0) "resource-submit-multiplier" Treat each worker as having ({cores,memory,gpus} * multiplier) when submitting tasks. This allows for tasks to wait at a worker rather than the manager. (default = 1.0) "short-timeout" Set the minimum timeout when sending a brief message to a single worker. (default=5s) "transfer-outlier-factor" Transfer that are this many times slower than the average will be terminated. (default=10x) "transfer-replica-per-cycle" Number of replicas to schedule per file per iteration. (default=1) "transfer-temps-recovery" If 1, try to replicate temp files to reach threshold on worker removal. (default=0) "transient-error-interval" Time to wait in seconds after a resource failure before attempting to use it again. (default=15) "wait-for-workers" Mimimum number of workers to connect before starting dispatching tasks. (default=0) "wait-retrieve-many" If set to 0, cvine.vine_wait breaks out of the while loop whenever a task changes to "task_done" (wait_retrieve_one mode). If set to 1, vine_wait does not break, but continues recieving and dispatching tasks. This occurs until no task is sent or recieved, at which case it breaks out of the while loop (wait_retrieve_many mode). (default=0) "worker-retrievals" If 1, retrieve all completed tasks from a worker when retrieving results, even if going above the parameter max-retrievals . Otherwise, if 0, retrieve just one task before deciding to dispatch new tasks or connect new workers. (default=1) "watch-library-logfiles" If 1, watch the output files produced by each of the library processes running on the remote workers, take them back the current logging directory. (default=0)
+    value - The value to set the parameter to.
+  submit(self, task) - Submit a task to the manager.
+    self - Reference to the current manager object.
+    task - A task description created from ndcctools.taskvine.task.Task.
+  install_library(self, task) - Submit a library to install on all connected workers.
+    self - Reference to the current manager object.
+    task - A Library Task description created from create_library_from_functions or create_library_from_files
+  remove_library(self, name) - Remove a library from all connected workers.
+    self - Reference to the current manager object.
+    name - Name of the library to be removed.
+  check_library_exists(self, library_name) - Check whether a libray exists on the manager or not.
+    self - Reference to the current manager object.
+    library_name - Name of the library to be checked
+  create_library_from_functions(self, library_name, function_list, poncho_env, init_command, add_env, hoisting_modules, exec_mode, library_context_info) - Turn a list of python functions into a Library Task.
+    self - Reference to the current manager object.
+    library_name - Name of the Library to be created
+    function_list - List of all functions to be included in the library
+    poncho_env - Name of an already prepared poncho environment or a conda environment
+    init_command - A string describing a shell command to execute before the library task is run
+    add_env - Whether to automatically create and/or add environment to the library
+    hoisting_modules - A list of modules imported at the preamble of library, including packages, functions and classes.
+    exec_mode - Execution mode that the library should use to run function calls. Either 'direct' or 'fork'
+    library_context_info - A list containing [library_context_func, library_context_args, library_context_kwargs]. Used to create the library context on remote nodes.
+  create_library_from_serverized_files(self, library_name, library_path, env) - Turn Library code created with poncho_package_serverize into a Library Task.
+    self - Reference to the current manager object.
+    library_name - Name that identifies this library to the FunctionCalls
+    library_path - Filename of the library (i.e., the output of poncho_package_serverize)
+    env - Environment to run the library. Either a vine file that expands to an environment (see ndcctools.taskvine.task.Task.add_environment), or a path to a poncho environment.
+  create_library_from_command(self, executable_path, name, env) - Create a Library task from arbitrary inputs.
+    self - Reference to the current manager object
+    executable_path - Filename of the library executable
+    name - Name of the library to be created
+    env - Environment to run the library. Either a vine file that expands to an environment (see ndcctools.taskvine.task.Task.add_environment), or a path to a poncho environment.
+  wait(self, timeout) - Wait for tasks to complete.
+    self - Reference to the current manager object.
+    timeout - The number of seconds to wait for a completed task before returning. Use an integer to set the timeout or the value "wait_forever" to block until a task has completed. If 0, return immediately with a complete task if one available, or None otherwise.
+  wait_for_tag(self, tag, timeout) - Similar to ndcctools.taskvine.manager.Manager.wait, but guarantees that the returned task has the specified tag.
+    self - Reference to the current manager object.
+    tag - Desired tag. If None, then it is equivalent to self.wait(timeout)
+    timeout - The number of seconds to wait for a completed task before returning. If 0, return immediately with a complete task if one available, or None otherwise.
+  wait_for_task_id(self, task_id, timeout) - Similar to ndcctools.taskvine.manager.Manager.wait, but guarantees that the returned task has the specified task_id.
+    self - Reference to the current manager object.
+    task_id - Desired task_id. If -1, then it is equivalent to self.wait(timeout)
+    timeout - The number of seconds to wait for a completed task before returning. If 0, return immediately with a complete task if one available, or None otherwise.
+  application_info(self) - Should return a dictionary with information for the status display.
+    self - Reference to the current work queue object.
+  map(self, fn, seq, chunksize) - Maps a function to elements in a sequence using taskvine.
+    self - Reference to the current manager object.
+    fn - The function that will be called on each element
+    seq - The sequence that will call the function
+    chunksize - The number of elements to process at once
+  pair(self, fn, seq1, seq2, chunksize, env) - Returns the values for a function of each pair from 2 sequences.
+    self - Reference to the current manager object.
+    fn - The function that will be called on each element
+    seq1 - The first seq that will be used to generate pairs
+    seq2 - The second seq that will be used to generate pairs
+    chunksize - Number of pairs to process at once (default is 1)
+    env - Filename of a python environment tarball (conda or poncho)
+  tree_reduce(self, fn, seq, chunksize) - Reduces a sequence until only one value is left, and then returns that value.
+    self - Reference to the current manager object.
+    fn - The function that will be called on each element
+    seq - The seq that will be reduced
+    chunksize - The number of elements per Task (for tree reduc, must be greater than 1)
+  remote_map(self, fn, seq, library, name, chunksize) - Maps a function to elements in a sequence using taskvine remote task.
+    self - Reference to the current manager object.
+    fn - The function that will be called on each element. This function exists in library.
+    seq - The sequence that will call the function
+    library - The name of the library that contains the function fn.
+    name - This defines the key in the event json that wraps the data sent to the library.
+    chunksize - The number of elements to process at once
+  remote_pair(self, fn, seq1, seq2, library, name, chunksize) - Returns the values for a function of each pair from 2 sequences using remote task.
+    self - Reference to the current manager object.
+    fn - The function that will be called on each element. This function exists in library.
+    seq1 - The first seq that will be used to generate pairs
+    seq2 - The second seq that will be used to generate pairs
+    library - The name of the library that contains the function fn.
+    name - This defines the key in the event json that wraps the data sent to the library.
+    chunksize - The number of elements to process at once
+  remote_tree_reduce(self, fn, seq, library, name, chunksize) - Reduces a sequence until only one value is left, and then returns that value.
+    self - Reference to the current manager object.
+    fn - The function that will be called on each element. Exists on the library
+    seq - The seq that will be reduced
+    library - The name of the library that contains the function fn.
+    name - This defines the key in the event json that wraps the data sent to the library.
+    chunksize - The number of elements per Task (for tree reduc, must be greater than 1)
+  declare_file(self, path, cache, peer_transfer, unlink_when_done) - Declare a file obtained from the local filesystem.
+    self - The manager to register this file
+    path - The path to the local file
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+    unlink_when_done - Whether to delete the file when its reference count is 0. (Warning: Only use on files produced by the application, and never on irreplaceable input files.)
+  fetch_file(self, file) - Fetch file contents from the cluster or local disk.
+    self - The manager to register this file
+    file - The file object
+  undeclare_file(self, file) - Un-declare a file that was created by declare_file or similar methods.
+    self - The manager to register this file
+    file - The file object
+  undeclare_function(self, fn) - Remove the manager's local serialized copy of a function used with PythonTask.
+    self - The manager to register this file
+    fn - The function that the manager should forget.
+  declare_temp(self) - Declare an anonymous file has no initial content, but is created as the output of a task, and may be consumed by other tasks.
+    self - The manager to register this file
+  declare_url(self, url, cache, peer_transfer) - Declare a file obtained from a remote URL.
+    self - The manager to register this file
+    url - The url of the file.
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  declare_buffer(self, buffer, cache, peer_transfer) - Declare a file created from a buffer in memory.
+    self - The manager to register this file
+    buffer - The contents of the buffer, or None for an empty output buffer
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  declare_minitask(self, minitask, source, cache, peer_transfer) - Declare a file created by executing a mini-task.
+    self - The manager to register this file
+    minitask - The task to execute in order to produce a file
+    source - The name of the file to extract from the task's sandbox.
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  declare_untar(self, tarball, cache, peer_transfer) - Declare a file created by by unpacking a tar file.
+    self - The manager to register this file
+    tarball - The file object to un-tar
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  declare_poncho(self, package, cache, peer_transfer) - Declare a file that sets up a poncho environment.
+    self - The manager to register this file
+    package - The poncho environment tarball. Either a vine file or a string representing a local file.
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  declare_starch(self, starch, cache, peer_transfer) - Declare a file create a file by unpacking a starch package.
+    self - The manager to register this file
+    starch - The startch .sfx file. Either a vine file or a string representing a local file.
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  declare_xrootd(self, source, proxy, env, cache, peer_transfer) - Declare a file from accessible from an xrootd server.
+    self - The manager to register this file.
+    source - The URL address of the root file in text form as: "root://XROOTSERVER[:port]//path/to/file"
+    proxy - A ndcctools.taskvine.file.File of the X509 proxy to use. If None, the environment variable X509_USER_PROXY and the file "$TMPDIR/$UID" are considered in that order. If no proxy is present, the transfer is tried without authentication.
+    env - If not None, an environment file (e.g poncho or starch, see ndcctools.taskvine.task.Task.add_environment) that contains the xrootd executables. Otherwise assume xrootd is available at the worker.
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  declare_chirp(self, server, source, ticket, env, cache, peer_transfer) - Declare a file from accessible from an xrootd server.
+    self - The manager to register this file.
+    server - The chirp server address of the form "hostname[:port"]"
+    source - The name of the file in the server
+    ticket - If not None, a file object that provides a chirp an authentication ticket
+    env - If not None, an environment file (e.g poncho or starch) that contains the chirp executables. Otherwise assume chirp is available at the worker.
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'worker', the file is cache until the end-of-life of the worker. If 'forever', the file is cached beyond the end-of-life of the worker. Default is False (file is not cached).
+    peer_transfer - Whether the file can be transfered between workers when peer transfers are enabled (see ndcctools.taskvine.manager.Manager.enable_peer_transfers). Default is True.
+  log_txn_app(self, server) - Adds a custom APPLICATION entry to the transactions log.
+    self - The manager to register this file.
+    server - A custom transaction message
+  log_debug_app(self, server) - Adds a custom APPLICATION entry to the debug log.
+    self - The manager to register this file.
+    server - A custom debug message
+ndcctools.taskvine.task.Task
+  __init__(self, command, task_info) - Create a new task specification.
+    self - Reference to the current task object.
+    command - The shell command line to be exected by the task.
+    task_info - Optional dictionary containing specified task parameters.
+  submit_finalize(self) - Finalizes the task definition once the manager that will execute is run.
+    self - Reference to the current python task object
+  clone() - Return a copy of this task.
+  set_command(self, command) - Set the command to be executed by the task.
+    self - Reference to the current task object.
+    command - The command to be executed.
+  set_library_required(self, library) - Set the name of the library at the worker that should execute the task's command.
+    self - Reference to the current task object.
+    library - The library or the name of the library
+  get_library_required(self) - Get the name of the library at the worker that should execute the task's command.
+    self - Reference to the current task object.
+  needs_library() - Deprecated, see set_library_required.
+  set_library_provided(self, library_name) - Set the library name provided by this task.
+    self - Reference to the current task object.
+    library_name - The name of the library.
+  get_libray_provided(self) - Get the name of the library at the worker that should execute the task's command.
+    self - Reference to the current task object.
+  provides_library() - Deprecated, see set_library_provided.
+  set_function_slots(self, nslots) - Set the number of concurrent functions a library can run.
+    self - Reference to the current task object.
+    nslots - The maximum number of concurrent functions this library can run.
+  set_function_exec_mode_from_string(self, exec_mode) - Set the execution mode of functions in a library.
+    self - Reference to the current task object.
+    exec_mode - The execution mode of functions in a library. Either 'fork' or 'direct'.
+  set_scheduler(self, scheduler) - Set the worker selection scheduler for task.
+    self - Reference to the current task object.
+    scheduler - One of the following schedulers to use in assigning a task to a worker. See vine_schedule_t for possible values.
+  set_tag(self, tag) - Attach a user defined logical name to the task.
+    self - Reference to the current task object.
+    tag - The tag to attach to task.
+  set_category(self, name) - Label the task with the given category.
+    self - Reference to the current task object.
+    name - The name of the category
+  add_feature(self, name) - Label the task with the given user-defined feature.
+    self - Reference to the current task object.
+    name - The name of the feature.
+  add_input(self, file, remote_name, strict_input) - Add any input object to a task.
+    self - Reference to the current task object.
+    file - A file object of class ndcctools.taskvine.file.File, such as from ndcctools.taskvine.manager.Manager.declare_file, ndcctools.taskvine.manager.Manager.declare_buffer, ndcctools.taskvine.manager.Manager.declare_url, etc.
+    remote_name - The name of the file at the execution site.
+    strict_input - Whether the file should be transfered to the worker for execution. If no worker has all the input files already cached marked as strict inputs for the task, the task fails.
+  add_output(self, file, remote_name, watch, success_only, failure_only) - Add any output object to a task.
+    self - Reference to the current task object.
+    file - A file object of class ndcctools.taskvine.file.File, such as from ndcctools.taskvine.manager.Manager.declare_file, or ndcctools.taskvine.manager.Manager.declare_buffer ndcctools.taskvine.task.Task.add_input
+    remote_name - The name of the file at the execution site.
+    watch - Watch the output file and send back changes as the task runs.
+    success_only - Whether the file should be retrieved only when the task succeeds. Default is False.
+    failure_only - Whether the file should be retrieved only when the task fails (e.g., debug logs). Default is False.
+  set_snapshot_file(self, filename) - When monitoring, indicates a json-encoded file that instructs the monitor to take a snapshot of the task resources.
+    self - Reference to the current task object.
+    filename - The name of the snapshot events specification
+  add_starch_package(t, f) - Add a Starch package as an execution context.
+    t - A task object.
+    f - A file containing an unpacked Starch package.
+  add_poncho_package(t, f) - Add a Poncho package as an execution context.
+    t - A task object.
+    f - A file containing an unpacked Poncho package.
+  add_execution_context(t, f) - Adds an execution context to the task.
+    t - A task object.
+    f - The execution context file.
+  set_retries() - Indicate the number of times the task should be retried.
+  set_max_forsaken() - Indicate the number of times the task can be returned to the manager without being executed.
+  set_cores() - Indicate the number of cores required by this task.
+  set_memory() - Indicate the memory (in MB) required by this task.
+  set_disk() - Indicate the disk space (in MB) required by this task.
+  set_gpus() - Indicate the number of GPUs required by this task.
+  set_priority() - Indicate the the priority of this task (larger means better priority, default is 0).
+  set_env_var() - Set this environment variable before running the task.
+  set_monitor_output() - Set a name for the resource summary output directory from the monitor.
+  tag() - Get the user-defined logical name for the task.
+  category() - Get the category name for the task.
+  command() - Get the shell command executed by the task.
+  state() - Get the state of the task.
+  std_output() - Get the standard output of the task.
+  output() - Get the standard output of the task.
+  id() - Get the task id number.
+  exit_code() - Get the exit code of the command executed by the task.
+  result() - Return a string that explains the result of a task.
+  completed() - Return True if task executed and its command terminated normally.
+  successful() - Return True if task executed successfully, (i.e.
+  get_metric() - Return various integer performance metrics about a completed task.
+  addrport() - Get the address and port of the host on which the task ran.
+  hostname() - Get the address and port of the host on which the task ran.
+  resources_measured() - Get the resources measured for the task execution if resource monitoring is enabled.
+  limits_exceeded() - Get the resources the task exceeded.
+  resources_requested() - Get the resources the task requested to run.
+  resources_allocated() - Get the resources allocated to the task in its latest attempt.
+  add_nopen() - Adds inputs for nopen library and rules file and sets LD_PRELOAD.
+ndcctools.taskvine.task.LibraryTask
+  __init__(self, fn, library_name) - Create a new LibraryTask task specification.
+    self - Reference to the current remote task object.
+    fn - The command for this LibraryTask to run
+    library_name - The name of this Library.
+ndcctools.taskvine.task.PythonTask
+  __init__(self, func, args, kwargs) - Creates a new python task.
+    self - Reference to the current python task object
+    func - python function to be executed by task
+    args - arguments used in function to be executed by task
+    kwargs - keyword arguments used in function to be executed by task
+  submit_finalize(self, manager) - Finalizes the task definition once the manager that will execute is run.
+    self - Reference to the current python task object
+    manager - Manager to which the task was submitted
+  enable_temp_output(self) - Marks the output of this task to stay at the worker.
+    self - Reference to the current python task object
+  set_output_cache(cache) - Set the cache behavior for the output of the task.
+    cache - If True or 'workflow', cache the file at workers for reuse until the end of the workflow. If 'always', the file is cache until the end-of-life of the worker. Default is False (file is not cache).
+  output_file() - Returns the ndcctools.taskvine.file.File object that represents the output of this task.
+  output(self) - returns the result of a python task as a python variable
+    self - reference to the current python task object
+  disable_output_serialization(self) - Disables serialization of results to disk when writing to a file for transmission.
+    self - Reference to the current python task object
+ndcctools.taskvine.task.FunctionCall
+  __init__(self, library, fn, args, kwargs) - Create a new FunctionCall specification.
+    self - Reference to the current FunctionCall object.
+    library - The library, or name of the library which has the function you wish to execute.
+    fn - The name of the function to be executed on the library.
+    args - positional arguments used in function to be executed by task. Can be mixed with kwargs
+    kwargs - keyword arguments used in function to be executed by task.
+  submit_finalize(self) - Finalizes the task definition once the manager that will execute is run.
+    self - Reference to the current python task object
+  set_fn_args(self, args, kwargs) - Specify function arguments.
+    self - Reference to the current remote task object
+    args - An array of positional args to be passed to the function
+    kwargs - A dictionary of keyword arguments to be passed to the function
+  set_exec_method(self, remote_task_exec_method) - Specify how the remote task should execute.
+    self - Reference to the current remote task object
+    remote_task_exec_method - Can be either of "fork" or "direct". Fork creates a child process to execute the function and direct has the worker directly call the function.
+  output() - Retrieve output, handles cleanup, and returns result or failure reason.
