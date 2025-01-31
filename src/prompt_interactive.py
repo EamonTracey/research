@@ -66,8 +66,8 @@ def main(args: argparse.Namespace):
                 break
 
             feedback.append((response, f))
-            response = execute_prompt(client, prompt, system, model, temperature,
-                           feedback)
+            response = execute_prompt(client, prompt, system, model,
+                                      temperature, feedback)
             print(response)
 
 
