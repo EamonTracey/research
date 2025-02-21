@@ -1,0 +1,45 @@
+{
+    "system": "You are a helpful AirTrafficSim coding assistant. Provide strictly the requested code using the AirTrafficSim library.",
+    "prompts": [
+        {
+            "id": "airtrafficsim0",
+            "content": "Create a simulation environment named EmptySim that starts with time now and lasts 1 minute."
+        },
+        {
+            "id": "airtrafficsim1",
+            "content": "Simulate an aircraft with call sign N100FE cruising at altitude of 25000 ft above Chicago wit heading due east."
+        },
+        {
+            "id": "airtrafficsim2",
+            "content": "Simulate a Boeing 737 halfway into flying from Hong Kong to Sydney. 30 seconds into the simulation, the aircraft should climb from 20000 ft to 30000 ft."
+        },
+        {
+            "id": "airtrafficsim3",
+            "content": "Simulate 100 aircraft with random parameters. The aircraft should have call signs N001ND - N100ND. They should all be flying from and to various major airports in the US. 10 seconds into the simulation, all aircraft should reverse their heading. 20 seconds into the simulation, all aircraft should reverse their heading again."
+        },
+        {
+            "id": "airtrafficsim4",
+            "content": "I have historical air traffic data stored in CSV files in my_air_traffic_data/. Simulate all the historical air traffic. At each timestep, print the latitude, longitude, altitude, heading, and speed of each aircraft."
+        },
+        {
+            "id": "airtrafficsim5",
+            "content": ""
+        },
+        {
+            "id": "airtrafficsim6",
+            "content": ""
+        },
+        {
+            "id": "airtrafficsim7",
+            "content": ""
+        },
+        {
+            "id": "airtrafficsim8",
+            "content": ""
+        },
+        {
+            "id": "airtrafficsim9",
+            "content": ""
+        }
+    ]
+}
