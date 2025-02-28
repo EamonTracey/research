@@ -1,0 +1,82 @@
+airtrafficsim.core.environment.Environment
+  start_time - The simulation start time [datetime object]
+  end_time - The simulation end time [s]
+  atc_command() - Virtual method to execute user command each timestep.
+  should_end() - Virtual method to determine whether the simulation should end each timestep.
+  step(socketio=None) - Conduct one simulation timestep.
+  run(socketio=None) - Run the simulation for all timesteps.
+  save() - Save all states variable of one timestemp to csv file.
+  export_to_csv() - Export the simulation result to a csv file.
+  send_to_client(socketio) - Send the simulation data to client.
+    socketio - socketio object to handle communciation when running simulation
+airtrafficsim.core.aircraft.Aircraft
+  set_heading(heading) - Set the heading of the aircraft.
+    heading - Heading [deg]
+  set_speed(speed) - Set the speed of the aircraft.
+    speed - Speed [kt]
+  set_vs(vs) - Set vertical speed.
+    vs - Vertical speed [ft/min]
+  set_alt(alt) - Set altitude.
+    alt - Altitude [ft]
+  set_direct(waypoint) - Set direct to a waypoint.
+    waypoint - ICAO code of the waypoint
+  set_holding(holding_time, holding_fix, region) - Set holding procedure.
+    holding_time - How long should the aircraft hold [second]
+    holding_fix - ICAO code of the fix that the aircraft should hold
+    region - ICAO code of the region that the aircraft should hold
+  set_vectoring(vectoring_time, v_2, fix) - Set vectoring procedure.
+    vectoring_time - How long should the aircraft vector [second]
+    v_2 - The target speed speed [kt]
+    fix - ICAO code of the fix that the aircraft go next after vectoring
+  resume_own_navigation() - Resume own navigation to use autopilot instead of user commanded target.
+  get_heading() - Get heading of aircraft.
+  get_cas() - Get Calibrated air speed of aircraft.
+  get_mach() - Get Mach number of aircraft.
+  get_vs() - Get vertical speed of aircraft.
+  get_alt() - Get altitude of aircraft.
+  get_long() - Get longitude of aircraft.
+  get_lat() - Get latitude of aircraft.
+  get_fuel_consumed() - Get the total fuel consumed of aircraft.
+  get_next_wp() - Get next waypoint.
+  get_wake() - Get wake category of aircraft.
+airtrafficsim.core.traffic.Traffic
+  n - Aircraft count
+  index - Index array to indicate whether there is an aircraft active in each index.
+  call_sign - Callsign [string]
+  aircraft_type - Aircraft type in ICAO format [string]
+  configuration - Aircraft configuration [Configuration enum 1: Clean, 2: Take Off, 3: Approach, 4: Landing]
+  flight_phase - Flight phase [Flight_phase enum] (BADA section 3.5)
+  lat - Latitude [deg]
+  long - Longitude [deg]
+  alt - Altitude [ft] Geopotential altitude
+  trans_alt - Transaition altitude [ft]
+  cruise_alt - Cruise altitude [ft]
+  heading - Heading [deg]
+  track_angle - Track angle [deg]
+  bank_angle - Bank angle [deg]
+  path_angle - Path angle [deg]
+  cas - Calibrated air speed [knot]
+  tas - True air speed [knot]
+  gs_north - Ground speed - North[knot]
+  gs_east - Ground speed - East [knot]
+  mach - Mach number [dimensionless]
+  accel - Acceleration [m/s^2]
+  speed_mode - Speed mode [Traffic.speed_mode enum 1: CAS, 2: MACH]
+  max_alt - Maximum altitude [feet]
+  max_cas - Maximum calibrated air speed [knot]
+  max_mach - Maximum mach number [dimensionless]
+  vs - Vertical speed [feet/min]
+  fpa - Flight path angle [deg]
+  vertical_mode - Vertical mode [Vertical mode enum 1: LEVEL, 2: CLIMB, 3: DESCENT]
+  mass - Aircraft mass [kg]
+  empty_weight - Empty weight [kg]
+  fuel_weight - Initial fuel weight [kg]
+  payload_weight - Payload weight [kg]
+  fuel_consumed - Fuel consumped [kg]
+  perf - Performance class
+  ap - Autopilot class
+  weather - Weather class
+  add_aircraft(call_sign, aircraft_type, flight_phase, configuration, lat, long, alt, heading, cas, fuel_weight, payload_weight, departure_airport, departure_runway, sid, arrival_airport, arrival_runway, star, approach, flight_plan, cruise_alt) - Add an aircraft to traffic array.
+  del_aircraft(index) - Delete an aircraft from traffic array.
+    index - Index of an aircraft
+  update(global_time, d_t=1) - Update aircraft state for each timestep given ATC/autopilot command.
