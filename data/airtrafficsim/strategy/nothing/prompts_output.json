@@ -1,0 +1,55 @@
+{
+    "system": "You are a helpful AirTrafficSim coding assistant. Provide strictly the requested code using the AirTrafficSim library.",
+    "prompts": [
+        {
+            "id": "airtrafficsim0",
+            "content": "Create a simulation environment named EmptySim that starts with time now and lasts 1 minute.",
+            "response": "```python\nfrom air_traffic_sim import SimulationEnvironment\nfrom datetime import datetime, timedelta\n\n# Create a simulation environment named EmptySim\nsimulation_duration = timedelta(minutes=1)\nstart_time = datetime.now()\n\nempty_sim = SimulationEnvironment(name=\"EmptySim\", start_time=start_time, duration=simulation_duration)\n```"
+        },
+        {
+            "id": "airtrafficsim1",
+            "content": "Simulate an aircraft with call sign N100FE cruising at altitude of 25000 ft above Chicago wit heading due east.",
+            "response": "```python\nfrom air_traffic_sim import Simulation, Aircraft\n\n# Create a simulation instance\nsim = Simulation()\n\n# Define the aircraft with the specified parameters\naircraft = Aircraft(\n    call_sign=\"N100FE\",\n    altitude=25000,  # Altitude in feet\n    latitude=41.8781,  # Latitude for Chicago\n    longitude=-87.6298,  # Longitude for Chicago\n    heading=90  # Heading due east\n)\n\n# Add the aircraft to the simulation\nsim.add_aircraft(aircraft)\n\n# Run the simulation for a single step to initialize\nsim.step()\n\n# Print the aircraft's current state\nprint(aircraft)\n```\n"
+        },
+        {
+            "id": "airtrafficsim2",
+            "content": "Simulate a Boeing 737 halfway into flying from Hong Kong to Sydney. 30 seconds into the simulation, the aircraft should climb from 20000 ft to 30000 ft.",
+            "response": "```python\nfrom air_traffic_sim import Simulation, Aircraft, Waypoint, Route\n\n# Define the waypoints for the route from Hong Kong to Sydney\nhong_kong = Waypoint(\"Hong Kong\", latitude=22.308, longitude=113.918)\nsydney = Waypoint(\"Sydney\", latitude=-33.9399, longitude=151.1753)\n\n# Create the route\nroute = Route([hong_kong, sydney])\n\n# Initialize the aircraft, a Boeing 737, halfway into the route\nboeing_737 = Aircraft(\n    model=\"Boeing 737\",\n    current_altitude=20000,  # Start at 20,000 ft\n    current_speed=450,       # Speed in knots\n    current_position=route.position_at_fraction(0.5),  # Halfway into the route\n    route=route\n)\n\n# Create the simulation\nsimulation = Simulation()\n\n# Add the aircraft to the simulation\nsimulation.add_aircraft(boeing_737)\n\n# Define a function to change the altitude after 30 seconds\ndef change_altitude():\n    boeing_737.set_target_altitude(30000)  # Climb to 30,000 ft\n\n# Schedule the altitude change\nsimulation.schedule_event(30, change_altitude)\n\n# Run the simulation for 60 seconds\nsimulation.run(duration=60)\n```"
+        },
+        {
+            "id": "airtrafficsim3",
+            "content": "Simulate 100 aircraft with random parameters. The aircraft should have call signs N001ND - N100ND. They should all be flying from and to various major airports in the US. 10 seconds into the simulation, all aircraft should reverse their heading. 20 seconds into the simulation, all aircraft should reverse their heading again.",
+            "response": "```python\nfrom air_traffic_sim import Simulation, Aircraft, Airport\nimport random\n\n# Initialize the simulation\nsim = Simulation()\n\n# List of major US airports\nairports = [\n    \"ATL\", \"LAX\", \"ORD\", \"DFW\", \"DEN\", \"JFK\", \"SFO\", \"SEA\", \"LAS\", \"MCO\"\n]\n\n# Create 100 aircraft with random parameters\nfor i in range(1, 101):\n    call_sign = f\"N{i:03}ND\"\n    departure = random.choice(airports)\n    destination = random.choice(airports)\n    while destination == departure:\n        destination = random.choice(airports)\n    \n    # Create an aircraft with random speed and altitude\n    aircraft = Aircraft(\n        call_sign=call_sign,\n        departure=Airport(departure),\n        destination=Airport(destination),\n        speed=random.randint(400, 600),  # Random speed between 400 and 600 knots\n        altitude=random.randint(30000, 40000)  # Random altitude between 30,000 and 40,000 feet\n    )\n    \n    # Add the aircraft to the simulation\n    sim.add_aircraft(aircraft)\n\n# Define a function to reverse heading\ndef reverse_heading():\n    for aircraft in sim.aircraft:\n        aircraft.heading = (aircraft.heading + 180) % 360\n\n# Schedule the heading reversals\nsim.schedule_event(10, reverse_heading)\nsim.schedule_event(20, reverse_heading)\n\n# Run the simulation for 30 seconds\nsim.run(30)\n```"
+        },
+        {
+            "id": "airtrafficsim4",
+            "content": "I have historical air traffic data stored in CSV files in my_air_traffic_data/. Simulate all the historical air traffic. At each timestep, print the latitude, longitude, altitude, heading, and speed of each aircraft.",
+            "response": "```python\nimport os\nimport pandas as pd\nfrom air_traffic_sim import AirTrafficSimulator, Aircraft\n\n# Initialize the simulator\nsimulator = AirTrafficSimulator()\n\n# Load all CSV files from the directory\ndata_directory = 'my_air_traffic_data'\ncsv_files = [f for f in os.listdir(data_directory) if f.endswith('.csv')]\n\n# Load data from each CSV file and create aircraft\nfor csv_file in csv_files:\n    file_path = os.path.join(data_directory, csv_file)\n    df = pd.read_csv(file_path)\n    \n    for index, row in df.iterrows():\n        aircraft = Aircraft(\n            id=row['id'],\n            latitude=row['latitude'],\n            longitude=row['longitude'],\n            altitude=row['altitude'],\n            heading=row['heading'],\n            speed=row['speed']\n        )\n        simulator.add_aircraft(aircraft)\n\n# Simulate the air traffic\nwhile simulator.has_active_aircraft():\n    simulator.update()\n    for aircraft in simulator.get_active_aircraft():\n        print(f\"Aircraft ID: {aircraft.id}, \"\n              f\"Latitude: {aircraft.latitude}, \"\n              f\"Longitude: {aircraft.longitude}, \"\n              f\"Altitude: {aircraft.altitude}, \"\n              f\"Heading: {aircraft.heading}, \"\n              f\"Speed: {aircraft.speed}\")\n```"
+        },
+        {
+            "id": "airtrafficsim5",
+            "content": "",
+            "response": "```python\n# It seems like you haven't provided any specific request or context.\n# Please provide more details or ask a specific question related to the AirTrafficSim library.\n```"
+        },
+        {
+            "id": "airtrafficsim6",
+            "content": "",
+            "response": "It seems like your request is empty. Could you please provide more details or specify what you need help with regarding the AirTrafficSim library?"
+        },
+        {
+            "id": "airtrafficsim7",
+            "content": "",
+            "response": "It seems like your request is empty. Could you please provide more details or specify what you need help with regarding the AirTrafficSim library?"
+        },
+        {
+            "id": "airtrafficsim8",
+            "content": "",
+            "response": "```python\n# It seems like you haven't provided any specific request or context.\n# Please provide more details or specify the code you need help with.\n```"
+        },
+        {
+            "id": "airtrafficsim9",
+            "content": "",
+            "response": "It seems like your request is empty. Could you please provide more details or specify what you need help with regarding the AirTrafficSim library?"
+        }
+    ]
+}
