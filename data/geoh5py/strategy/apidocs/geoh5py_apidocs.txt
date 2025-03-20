@@ -1,0 +1,168 @@
+geoh5py.workspace
+ geoh5py.workspace.workspace.Workspace(h5file: str | Path | BytesIO | None = None, *, contributors: tuple[str] = ('docs',), distance_unit: str = 'meter', ga_version: str = '1', mode='r+', name: str = 'GEOSCIENCE', repack: bool = False, version: float = 2.1)
+  activate() - Makes this workspace the active one.
+  static() - Get the active workspace.
+  add_or_update_property_group() - Add or update a property group to the workspace.
+  close() - Close the file and clear properties for future open.
+  classmethod(entity, property_groups, data_map) - the data map to use for the property groups.
+   entity - The entity associated to the property groups.
+   property_groups - The property groups to copy.
+   data_map - the data map to use for the property groups.
+  copy_to_parent(entity, parent, omit_list, clear_cache, kwargs) - Additional keyword arguments passed to the copy constructor.
+   entity - Entity to be copied.
+   parent - Target parent to copy the entity under.
+   omit_list - List of property names to omit on copy
+   clear_cache - Clear array attributes after copy.
+   kwargs - Additional keyword arguments passed to the copy constructor.
+  classmethod() - Create a named blank workspace and save to disk.
+  create_data(entity_class, entity, entity_type) - Properties of the entity_type.
+   entity_class - Dataclass.
+   entity - Properties of the entity.
+   entity_type - Properties of the entity_type.
+  create_entity(entity_class, compression, entity, entity_type, save_on_creation) - Save the entity to geoh5 immediately
+   entity_class - Type of entity to be created
+   compression - Compression level for data.
+   entity - Attributes of the entity.
+   entity_type - Attributes of the entity_type.
+   save_on_creation - Save the entity to geoh5 immediately
+  create_from_concatenation() - 
+  create_object_or_group(entity_class, entity, entity_type) - Attributes of the entity_type.
+   entity_class - ObjectBaseorGroupclass.
+   entity - Attributes of the entity.
+   entity_type - Attributes of the entity_type.
+  create_root(entity_attributes, type_attributes) - Attributes of the entity_type.
+   entity_attributes - Attributes of the entity.
+   type_attributes - Attributes of the entity_type.
+  deactivate() - Deactivate this workspace if it was the active one, else does nothing.
+  fetch_array_attribute(entity, key) - Field array name
+   entity - Unique identifier of target entity.
+   key - Field array name
+  fetch_children(entity, recursively) - Recover all children down the project tree.
+   entity - Parental entity.
+   recursively - Recover all children down the project tree.
+  fetch_concatenated_attributes() - Fetch attributes of Concatenated entity. :param entity: Concatenator group or ConcatenateObject. :return: Dictionary of attributes.
+  fetch_concatenated_list() - Fetch list of data or indices of ConcatenatedData entities. :param entity: Concatenator group. :param label: Label name of the h5py.Group. :return: List of concatenated Data names.
+  fetch_concatenated_values(entity, label) - Name of the target data.
+   entity - Concatenator group.
+   label - Name of the target data.
+  fetch_file_object() - Fetch an image from file name. :param uid: Unique identifier of target data object. :param file_name: Name of the file to fetch. :return: Array of values.
+  fetch_metadata(entity, argument) - Optional argument for other json-like attributes.
+   entity - Entity uid containing the metadata.
+   argument - Optional argument for other json-like attributes.
+  fetch_or_create_root() - Fetch the root group or create a new one if it does not exist.
+  fetch_property_groups() - Fetch all property_groups on an object from the source geoh5
+  fetch_type() - Fetch attributes of a specific entity type. :param uid: Unique identifier of the entity type. :param entity_type: One of ‘Data’, ‘Object’ or ‘Group’
+  fetch_values() - Fetch the data values from the source geoh5.
+  finalize() - Deprecate method finalize.
+  find_data() - Find an existing and active Data entity.
+  find_entity() - Get all active entities registered in the workspace.
+  find_group() - Find an existing and active Group object.
+  find_object() - Find an existing and active Object.
+  find_property_group() - Find an existing and active PropertyGroup object.
+  find_type() - Find an existing and active EntityType. :param type_uid: Unique identifier of target type. :param type_class: The type of entity to find.
+  get_entity() - Retrieve an entity from one of its identifier, either by name oruuid.UUID. :param name: Object identifier, either name or uuid. :return: List of entities with the same given name.
+  load_entity() - Recover an entity from geoh5. :param uid: Unique identifier of entity :param entity_type: One of entity type ‘group’, ‘object’, ‘data’ or ‘root’ :param parent: Parent entity. :return entity: Entity loaded from geoh5
+  open() - Open a geoh5 file and load the tree structure.
+  register() - Register an entity to the workspace based on its type.
+  remove_children() - Remove a list of entities from a parent. The target entities remain present on file.
+  remove_entity() - Function to remove an entity and its children from the workspace.
+  remove_none_referents() - Search and remove deleted entities
+  remove_recursively() - Delete an entity and its children from the workspace and geoh5 recursively
+  save() - 
+  save_as() - Save the workspace to disk.
+  save_entity() - Save or update an entity to geoh5. :param entity: Entity to be written to geoh5. :param add_children: Add children entities to geoh5. :param compression: Compression level for data.
+  save_entity_type() - Save or update an entity_type to geoh5.
+  update_attribute(entity, attribute, channel) - Optional channel argument for concatenated data and index.
+   entity - Entity to be written to geoh5.
+   attribute - Name of the attribute to get updated to geoh5.
+   channel - Optional channel argument for concatenated data and index.
+  validate_data_type(attributes, values) - Values to be stored as data.
+   attributes - Dictionary of attributes.
+   values - Values to be stored as data.
+geoh5py.groups
+ geoh5py.groups.base.Group(**kwargs)
+  copy(parent, copy_children, clear_cache, mask, kwargs) - Additional keyword arguments to pass to the copy constructor.
+   parent - Target parent to copy the entity under. Copied to currentparentif None.
+   copy_children - (Optional) Create copies of all children entities along with it.
+   clear_cache - Clear array attributes after copy.
+   mask - Array of bool defining the values to keep.
+   kwargs - Additional keyword arguments to pass to the copy constructor.
+  copy_from_extent() - Sub-class extension ofcopy_from_extent().
+  classmethod() - Find or create a type instance for a given object class.
+  mask_by_extent() - Sub-class extension ofmask_by_extent().
+  validate_entity_type() - Validate the entity type.
+geoh5py.objects
+ geoh5py.objects.block_model.BlockModel(u_cell_delimiters: ndarray = array([0., 1.]), v_cell_delimiters: ndarray = array([0., 1.]), z_cell_delimiters: ndarray = array([0., 1.]), **kwargs)
+  local_axis_centers() - Get the local axis centers for the block model.
+  static(value, axis) - Axis to validate the cell delimiters for.
+   value - Cell delimiters along the axis.
+   axis - Axis to validate the cell delimiters for.
+ geoh5py.objects.curve.Curve(current_line_id: UUID | None = None, parts: ndarray | None = None, vertices: ndarray | list | tuple | None = None, **kwargs)
+  remove_vertices(indices, clear_cache) - Clear cache of data values.
+   indices - Indices of vertices to be removed.
+   clear_cache - Clear cache of data values.
+  validate_cells() - up line segments.
+  static() - 
+ geoh5py.objects.drillhole.Drillhole(*, collar: ndarray | list | None = None, cost: float = 0.0, end_of_hole: float | None = None, planning: str = 'Default', surveys: ndarray | list | tuple | None = None, vertices: ndarray | None = None, default_collocation_distance: float = 0.01, **kwargs)
+  add_vertices() - Function to add vertices to the drillhole
+  static(survey, collar, end_of_hole) - End of the drillhole in meters.
+   survey - Array of survey points with columns ‘Depth’, ‘Azimuth’, ‘Dip’.
+   collar - Collar location of the drillhole.
+   end_of_hole - End of the drillhole in meters.
+  static(survey, end_of_hole) - End of the drillhole in meters.
+   survey - Array of survey points with columns ‘Depth’, ‘Azimuth’, ‘Dip’.
+   end_of_hole - End of the drillhole in meters.
+  static(intervals, depths) - Array of depth values.
+   intervals - Dictionary of intervals parameters.
+   depths - Array of depth values.
+  desurvey() - Function to return x, y, z coordinates from depth.
+  format_survey_values() - Reformat the survey values as structured array with the right shape.
+  mask_by_extent() - Sub-class extension ofmask_by_extent().
+  post_processing() - Read the ‘DEPTH’ data and sort all Data.values if needed
+  validate_association(attributes, property_group, collocation_distance) - Minimum collocation distance for matching.
+   attributes - Dictionary of data attributes.
+   property_group - Input property group to validate against.
+   collocation_distance - Minimum collocation distance for matching.
+  validate_depth_data(depth, values, collocation_distance) - Minimum collocation distance for matching.
+   depth - Array of depth values.
+   values - Array of values.
+   collocation_distance - Minimum collocation distance for matching.
+  validate_interval_data(from_to, values, collocation_distance) - Minimum collocation distance for matching.
+   from_to - Array of from-to values.
+   values - Array of values.
+   collocation_distance - Minimum collocation distance for matching.
+ geoh5py.objects.geo_image.GeoImage(*, cells: ndarray | list | tuple | None = None, dip: float | None = None, image: str | ndarray | BytesIO | Image | FilenameData | None = None, rotation: float | None = None, vertices: ndarray | list | tuple | None = None, **kwargs)
+  copy(parent, copy_children, clear_cache, mask, kwargs) - Additional keyword arguments.
+   parent - New parent for the copied object.
+   copy_children - Copy children entities.
+   clear_cache - Clear cache of data values.
+   mask - Array of indices to sub-sample the input entity.
+   kwargs - Additional keyword arguments.
+  copy_from_extent() - Sub-class extension ofcopy_from_extent().
+  georeference(reference, locations) - Array of floats for the corresponding world coordinates for each input pixel.
+   reference - Array of integers representing the reference used as reference points.
+   locations - Array of floats for the corresponding world coordinates for each input pixel.
+  georeferencing_from_image() - Georeferencing the GeoImage from the image.
+  georeferencing_from_tiff() - Get the geographic information from the PIL Image to georeference it. Run the georeference() method of the object.
+  mask_by_extent() - Sub-class extension ofmask_by_extent().
+  save_as() - Function to save the geoimage into an image file. It the name ends by ‘.tif’ or ‘.tiff’ and the tag is not None then the image is saved as georeferenced tiff image ; else, the image is save with PIL.Image’s save function. :param name: the name to give to the image. :param path: the path of the file of the image, default: ‘’.
+  set_tag_from_vertices() - If tag is None, set the basic tag values based on vertices in order to export as a georeferenced .tiff. WARNING: this function must be used after georeference().
+  to_grid2d(mode, grid2d_kwargs) - Keyword arguments to pass to thegeoh5py.objects.grid2d.Grid2Dconstructor.
+   mode - The output image mode, defaults to the incoming image.mode. If “GRAY” convert the image to grayscale.
+   grid2d_kwargs - Keyword arguments to pass to thegeoh5py.objects.grid2d.Grid2Dconstructor.
+  validate_image_data() - Validate the input image.
+ geoh5py.objects.grid2d.Grid2D(*, u_cell_size: float = 1.0, v_cell_size: float = 1.0, u_count: int = 1, v_count: int = 1, vertical: bool = False, dip: float = 0.0, **kwargs)
+  copy_from_extent() - Sub-class extension ofcopy_from_extent().
+  to_geoimage(keys, mode) - The mode of the image. One of ‘GRAY’, ‘RGB’, ‘RGBA’ or ‘CMYK’.
+   keys - the list of the data name to pass as band in the image. Warning: The len of the list can only be 1, 3, 4 (Pillow restrictions).
+   mode - The mode of the image. One of ‘GRAY’, ‘RGB’, ‘RGBA’ or ‘CMYK’.
+  static() - Validate and format type of cell size value.
+  static() - Validate and format type of count value.
+ geoh5py.objects.points.Points(vertices: ndarray | list | tuple | None = None, **kwargs)
+  copy() - Sub-class extension ofcopy().
+  remove_vertices(indices, clear_cache) - Clear cached data and attributes.
+   indices - Indices of vertices to remove.
+   clear_cache - Clear cached data and attributes.
+  classmethod() - Validate and format type of vertices array.
+ geoh5py.objects.surface.Surface(cells: ndarray | list | tuple | None = None, **kwargs)
+  validate_cells() - up triangles.

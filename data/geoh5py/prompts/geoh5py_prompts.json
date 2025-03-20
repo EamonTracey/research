@@ -1,0 +1,45 @@
+{
+    "system": "You are a helpful geoh5py coding assistant. Provide strictly the requested code using the geoh5py library.",
+    "prompts": [
+        {
+            "id": "geoh5py0",
+            "content": ""
+        },
+        {
+            "id": "geoh5py1",
+            "content": ""
+        },
+        {
+            "id": "geoh5py2",
+            "content": ""
+        },
+        {
+            "id": "geoh5py3",
+            "content": ""
+        },
+        {
+            "id": "geoh5py4",
+            "content": ""
+        },
+        {
+            "id": "geoh5py5",
+            "content": ""
+        },
+        {
+            "id": "geoh5py6",
+            "content": ""
+        },
+        {
+            "id": "geoh5py7",
+            "content": ""
+        },
+        {
+            "id": "geoh5py8",
+            "content": ""
+        },
+        {
+            "id": "geoh5py9",
+            "content": ""
+        }
+    ]
+}

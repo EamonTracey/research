@@ -1,0 +1,329 @@
+geoh5py.workspace.Workspace
+    __init__(self, h5file: 'str | Path | BytesIO | None' = None, *, contributors: 'tuple[str]' = ('eamontracey',), distance_unit: 'str' = 'meter', ga_version: 'str' = '1', mode='r+', name: 'str' = 'GEOSCIENCE', repack: 'bool' = False, version: 'float' = 2.1)
+    activate(self)
+    active() -> 'Workspace'
+    add_or_update_property_group(self, property_group: 'PropertyGroup', remove: 'bool' = False)
+    close(self)
+    copy_property_groups(entity: 'ObjectBase', property_groups: 'list[PropertyGroup]', data_map: 'dict')
+    copy_to_parent(self, entity, parent, omit_list: 'tuple' = (), clear_cache: 'bool' = False, **kwargs)
+    create(path: 'str | Path', **kwargs) -> 'Workspace'
+    create_data(self, entity_class, entity: 'dict', entity_type: 'dict | EntityType') -> 'Data'
+    create_entity(self, entity_class, *, compression: 'int' = 5, entity: 'dict | None' = None, entity_type: 'EntityType | dict | None' = None, save_on_creation: 'bool' = True)
+    create_from_concatenation(self, attributes)
+    create_object_or_group(self, entity_class, entity: 'dict', entity_type: 'dict | EntityType') -> 'Group | ObjectBase'
+    create_root(self, entity_attributes: 'dict | None' = None, type_attributes: 'dict | None' = None) -> 'RootGroup'
+    deactivate(self)
+    fetch_array_attribute(self, entity: 'Entity | EntityType', key: 'str' = 'cells') -> 'np.ndarray'
+    fetch_children(self, entity: 'Entity | PropertyGroup | None', recursively: 'bool' = False) -> 'list'
+    fetch_concatenated_attributes(self, entity: 'Concatenator | ConcatenatedObject') -> 'dict | None'
+    fetch_concatenated_list(self, entity: 'Group | ObjectBase', label: 'str') -> 'list | None'
+    fetch_concatenated_values(self, entity: 'Group | ObjectBase', label: 'str') -> 'tuple | None'
+    fetch_file_object(self, uid: 'uuid.UUID', file_name: 'str') -> 'bytes | None'
+    fetch_metadata(self, entity: 'Entity', argument='Metadata') -> 'dict | None'
+    fetch_or_create_root(self)
+    fetch_property_groups(self, entity: 'Entity') -> 'list[PropertyGroup]'
+    fetch_type(self, uid: 'uuid.UUID', entity_type: 'str') -> 'dict'
+    fetch_values(self, entity: 'Entity') -> 'np.ndarray | str | float | None'
+    finalize(self) -> 'None'
+    find_data(self, data_uid: 'uuid.UUID') -> 'Entity | None'
+    find_entity(self, entity_uid: 'uuid.UUID') -> 'Entity | PropertyGroup | None'
+    find_group(self, group_uid: 'uuid.UUID') -> 'Group | None'
+    find_object(self, object_uid: 'uuid.UUID') -> 'ObjectBase | None'
+    find_property_group(self, property_group_uid: 'uuid.UUID') -> 'PropertyGroup | None'
+    find_type(self, type_uid: 'uuid.UUID', type_class: 'type[EntityType]') -> 'EntityType | None'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | PropertyGroup | None]'
+    load_entity(self, uid: 'uuid.UUID', entity_type: 'str', parent: 'Entity | None' = None) -> 'Entity | PropertyGroup | None'
+    open(self, mode: 'str | None' = None) -> 'Workspace'
+    register(self, entity: 'Entity | EntityType | PropertyGroup')
+    remove_children(self, parent, children: 'list')
+    remove_entity(self, entity: 'Entity | PropertyGroup | EntityType', force=False)
+    remove_none_referents(self, referents: 'dict[uuid.UUID, ReferenceType]', rtype: 'str')
+    remove_recursively(self, entity: 'Entity | PropertyGroup')
+    save(self, filepath: 'str | Path') -> 'Workspace'
+    save_as(self, filepath: 'str | Path') -> 'Workspace'
+    save_entity(self, entity: 'Entity', add_children: 'bool' = True, compression: 'int' = 5) -> 'None'
+    save_entity_type(self, entity_type: 'EntityType') -> 'None'
+    update_attribute(self, entity: 'Entity | EntityType | DataType', attribute: 'str', channel: 'str | None' = None, **kwargs) -> 'None'
+    validate_data_type(self, attributes: 'dict', values) -> 'DataType'
+geoh5py.groups.Group
+    __init__(self, **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, **kwargs)
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'Group | None'
+    create(workspace, **kwargs)
+    default_type_uid() -> 'uuid.UUID | None'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'GroupType'
+    fix_up_name(name: 'str') -> 'str'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'None'
+    remove_children(self, children: 'list[shared.Entity | PropertyGroup]')
+    update_metadata(self, value: 'dict')
+    validate_entity_type(self, entity_type: 'GroupType | None') -> 'GroupType'
+    validate_metadata(value) -> 'dict | None'
+geoh5py.objects.BlockModel
+    __init__(self, u_cell_delimiters: 'np.ndarray' = array([0., 1.]), v_cell_delimiters: 'np.ndarray' = array([0., 1.]), z_cell_delimiters: 'np.ndarray' = array([0., 1.]), **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_data(self, data: 'dict', property_group: 'str | PropertyGroup | None' = None, compression: 'int' = 5, **kwargs) -> 'Data | list[Data]'
+    add_data_to_group(self, data: 'list[Data | UUID | str] | Data | UUID | str', property_group: 'str | PropertyGroup', **kwargs) -> 'PropertyGroup'
+    add_default_visual_parameters(self)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, **kwargs)
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'Entity | None'
+    create(workspace, **kwargs)
+    create_property_group(self, name=None, property_group_type: 'GroupTypeEnum | str' = <GroupTypeEnum.MULTI: 'Multi-element'>, **kwargs) -> 'PropertyGroup'
+    default_type_uid() -> 'uuid.UUID | None'
+    fetch_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_association(self, values: 'np.ndarray') -> 'str'
+    find_or_create_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'ObjectType'
+    fix_up_name(name: 'str') -> 'str'
+    get_data(self, name: 'str | UUID') -> 'list[Data]'
+    get_data_list(self, attribute: 'str' = 'name') -> 'list[Any]'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    get_property_group(self, name: 'UUID | str') -> 'list[PropertyGroup] | list[None]'
+    load_children_values(self)
+    local_axis_centers(self, axis: 'str') -> 'np.ndarray'
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'np.ndarray | None'
+    post_processing(self)
+    reference_to_data(self, data: 'str | Data | UUID') -> 'Data'
+    remove_children(self, children: 'list[Entity | PropertyGroup]')
+    remove_data_from_groups(self, data: 'list[Data | UUID | str] | Data | UUID | str')
+    update_metadata(self, value: 'dict')
+    validate_association(self, attributes, property_group=None, **_)
+    validate_cell_delimiters(value: 'np.ndarray', axis: 'str') -> 'np.ndarray'
+    validate_entity_type(self, entity_type: 'ObjectType') -> 'ObjectType'
+    validate_metadata(value) -> 'dict | None'
+geoh5py.objects.Curve
+    __init__(self, current_line_id: 'uuid.UUID | None' = None, parts: 'np.ndarray | None' = None, vertices: 'np.ndarray | list | tuple | None' = None, **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_data(self, data: 'dict', property_group: 'str | PropertyGroup | None' = None, compression: 'int' = 5, **kwargs) -> 'Data | list[Data]'
+    add_data_to_group(self, data: 'list[Data | UUID | str] | Data | UUID | str', property_group: 'str | PropertyGroup', **kwargs) -> 'PropertyGroup'
+    add_default_visual_parameters(self)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, cell_mask: 'np.ndarray | None' = None, **kwargs)
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'Entity | None'
+    create(workspace, **kwargs)
+    create_property_group(self, name=None, property_group_type: 'GroupTypeEnum | str' = <GroupTypeEnum.MULTI: 'Multi-element'>, **kwargs) -> 'PropertyGroup'
+    default_type_uid() -> 'uuid.UUID | None'
+    fetch_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_association(self, values: 'np.ndarray') -> 'str'
+    find_or_create_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'ObjectType'
+    fix_up_name(name: 'str') -> 'str'
+    get_data(self, name: 'str | UUID') -> 'list[Data]'
+    get_data_list(self, attribute: 'str' = 'name') -> 'list[Any]'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    get_property_group(self, name: 'UUID | str') -> 'list[PropertyGroup] | list[None]'
+    load_children_values(self)
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'np.ndarray | None'
+    post_processing(self)
+    reference_to_data(self, data: 'str | Data | UUID') -> 'Data'
+    remove_cells(self, indices: 'list[int] | np.ndarray', clear_cache: 'bool' = False)
+    remove_children(self, children: 'list[Entity | PropertyGroup]')
+    remove_data_from_groups(self, data: 'list[Data | UUID | str] | Data | UUID | str')
+    remove_vertices(self, indices: 'list[int] | np.ndarray', clear_cache: 'bool' = False)
+    update_metadata(self, value: 'dict')
+    validate_association(self, attributes, property_group=None, **_)
+    validate_cells(self, indices: 'list | tuple | np.ndarray | None') -> 'np.ndarray'
+    validate_entity_type(self, entity_type: 'ObjectType') -> 'ObjectType'
+    validate_metadata(value) -> 'dict | None'
+    validate_parts(indices: 'list | tuple | np.ndarray | None', vertices: 'np.ndarray | None')
+    validate_vertices(xyz: 'np.ndarray | list | tuple | None') -> 'np.ndarray'
+geoh5py.objects.Drillhole
+    __init__(self, *, collar: 'np.ndarray | list | None' = None, cost: 'float' = 0.0, end_of_hole: 'float | None' = None, planning: 'str' = 'Default', surveys: 'np.ndarray | list | tuple | None' = None, vertices: 'np.ndarray | None' = None, default_collocation_distance: 'float' = 0.01, **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_data(self, data: 'dict', property_group: 'str | PropertyGroup | None' = None, compression: 'int' = 5, **kwargs) -> 'Data | list[Data]'
+    add_data_to_group(self, data: 'list[Data | UUID | str] | Data | UUID | str', property_group: 'str | PropertyGroup', **kwargs) -> 'PropertyGroup'
+    add_default_visual_parameters(self)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    add_vertices(self, xyz)
+    compute_intervals(survey: 'np.ndarray', collar, end_of_hole) -> 'dict'
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, **kwargs) -> 'Points'
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'Entity | None'
+    create(workspace, **kwargs)
+    create_property_group(self, name=None, property_group_type: 'GroupTypeEnum | str' = <GroupTypeEnum.MULTI: 'Multi-element'>, **kwargs) -> 'PropertyGroup'
+    default_type_uid() -> 'uuid.UUID | None'
+    densify_survey_values(survey: 'np.ndarray', end_of_hole: 'float | None') -> 'np.ndarray'
+    depths_to_xyz(intervals: 'dict', depths: 'np.ndarray') -> 'np.ndarray'
+    desurvey(self, depths)
+    fetch_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_association(self, values: 'np.ndarray') -> 'str'
+    find_or_create_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'ObjectType'
+    fix_up_name(name: 'str') -> 'str'
+    format_survey_values(self, values: 'list | tuple | np.ndarray') -> 'np.ndarray'
+    get_data(self, name: 'str | UUID') -> 'list[Data]'
+    get_data_list(self, attribute: 'str' = 'name') -> 'list[Any]'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    get_property_group(self, name: 'UUID | str') -> 'list[PropertyGroup] | list[None]'
+    load_children_values(self)
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'np.ndarray | None'
+    post_processing(self)
+    reference_to_data(self, data: 'str | Data | UUID') -> 'Data'
+    remove_children(self, children: 'list[Entity | PropertyGroup]')
+    remove_data_from_groups(self, data: 'list[Data | UUID | str] | Data | UUID | str')
+    remove_vertices(self, indices: 'list[int] | np.ndarray', clear_cache: 'bool' = False)
+    update_metadata(self, value: 'dict')
+    validate_association(self, attributes: 'dict', property_group=None, collocation_distance=None, **_) -> 'tuple'
+    validate_depth_data(self, depth: 'np.ndarray', values: 'np.ndarray', collocation_distance=0.0001) -> 'np.ndarray'
+    validate_entity_type(self, entity_type: 'ObjectType') -> 'ObjectType'
+    validate_interval_data(self, from_to: 'np.ndarray | list', values: 'np.ndarray', collocation_distance: 'float' = 0.0001) -> 'np.ndarray'
+    validate_metadata(value) -> 'dict | None'
+    validate_vertices(xyz: 'np.ndarray | list | tuple | None') -> 'np.ndarray'
+geoh5py.objects.GeoImage
+    __init__(self, *, cells: 'np.ndarray | list | tuple | None' = None, dip: 'float | None' = None, image: 'str | np.ndarray | BytesIO | Image.Image | FilenameData | None' = None, rotation: 'float | None' = None, vertices: 'np.ndarray | list | tuple | None' = None, **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_data(self, data: 'dict', property_group: 'str | PropertyGroup | None' = None, compression: 'int' = 5, **kwargs) -> 'Data | list[Data]'
+    add_data_to_group(self, data: 'list[Data | UUID | str] | Data | UUID | str', property_group: 'str | PropertyGroup', **kwargs) -> 'PropertyGroup'
+    add_default_visual_parameters(self)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, **kwargs)
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'GeoImage | None'
+    create(workspace, **kwargs)
+    create_property_group(self, name=None, property_group_type: 'GroupTypeEnum | str' = <GroupTypeEnum.MULTI: 'Multi-element'>, **kwargs) -> 'PropertyGroup'
+    default_type_uid() -> 'uuid.UUID | None'
+    fetch_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_association(self, values: 'np.ndarray') -> 'str'
+    find_or_create_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'ObjectType'
+    fix_up_name(name: 'str') -> 'str'
+    georeference(self, reference: 'np.ndarray | list', locations: 'np.ndarray | list')
+    georeferencing_from_image(self)
+    georeferencing_from_tiff(self)
+    get_data(self, name: 'str | UUID') -> 'list[Data]'
+    get_data_list(self, attribute: 'str' = 'name') -> 'list[Any]'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    get_property_group(self, name: 'UUID | str') -> 'list[PropertyGroup] | list[None]'
+    load_children_values(self)
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'np.ndarray | None'
+    post_processing(self)
+    reference_to_data(self, data: 'str | Data | UUID') -> 'Data'
+    remove_children(self, children: 'list[Entity | PropertyGroup]')
+    remove_data_from_groups(self, data: 'list[Data | UUID | str] | Data | UUID | str')
+    save_as(self, name: 'str', path: 'str | Path' = '')
+    set_tag_from_vertices(self)
+    to_grid2d(self, mode: 'str | None' = None, **grid2d_kwargs) -> 'Grid2D'
+    update_metadata(self, value: 'dict')
+    validate_association(self, attributes, property_group=None, **_)
+    validate_entity_type(self, entity_type: 'ObjectType') -> 'ObjectType'
+    validate_image_data(self, image: 'str | np.ndarray | BytesIO | Image.Image | FilenameData | None') -> 'Image.Image'
+    validate_metadata(value) -> 'dict | None'
+geoh5py.objects.Grid2D
+    __init__(self, *, u_cell_size: 'float' = 1.0, v_cell_size: 'float' = 1.0, u_count: 'int' = 1, v_count: 'int' = 1, vertical: 'bool' = False, dip: 'float' = 0.0, **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_data(self, data: 'dict', property_group: 'str | PropertyGroup | None' = None, compression: 'int' = 5, **kwargs) -> 'Data | list[Data]'
+    add_data_to_group(self, data: 'list[Data | UUID | str] | Data | UUID | str', property_group: 'str | PropertyGroup', **kwargs) -> 'PropertyGroup'
+    add_default_visual_parameters(self)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, **kwargs)
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'Grid2D | None'
+    create(workspace, **kwargs)
+    create_property_group(self, name=None, property_group_type: 'GroupTypeEnum | str' = <GroupTypeEnum.MULTI: 'Multi-element'>, **kwargs) -> 'PropertyGroup'
+    default_type_uid() -> 'uuid.UUID | None'
+    fetch_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_association(self, values: 'np.ndarray') -> 'str'
+    find_or_create_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'ObjectType'
+    fix_up_name(name: 'str') -> 'str'
+    get_data(self, name: 'str | UUID') -> 'list[Data]'
+    get_data_list(self, attribute: 'str' = 'name') -> 'list[Any]'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    get_property_group(self, name: 'UUID | str') -> 'list[PropertyGroup] | list[None]'
+    load_children_values(self)
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'np.ndarray | None'
+    post_processing(self)
+    reference_to_data(self, data: 'str | Data | UUID') -> 'Data'
+    remove_children(self, children: 'list[Entity | PropertyGroup]')
+    remove_data_from_groups(self, data: 'list[Data | UUID | str] | Data | UUID | str')
+    to_geoimage(self, keys: 'list | str', mode: 'str | None' = None, **geoimage_kwargs) -> 'GeoImage'
+    update_metadata(self, value: 'dict')
+    validate_association(self, attributes, property_group=None, **_)
+    validate_cell_size(value: 'Real | np.ndarray', axis: 'str') -> 'float'
+    validate_count(value: 'int', axis: 'str') -> 'np.int32'
+    validate_entity_type(self, entity_type: 'ObjectType') -> 'ObjectType'
+    validate_metadata(value) -> 'dict | None'
+geoh5py.objects.Points
+    __init__(self, vertices: 'np.ndarray | list | tuple | None' = None, **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_data(self, data: 'dict', property_group: 'str | PropertyGroup | None' = None, compression: 'int' = 5, **kwargs) -> 'Data | list[Data]'
+    add_data_to_group(self, data: 'list[Data | UUID | str] | Data | UUID | str', property_group: 'str | PropertyGroup', **kwargs) -> 'PropertyGroup'
+    add_default_visual_parameters(self)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, **kwargs) -> 'Points'
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'Entity | None'
+    create(workspace, **kwargs)
+    create_property_group(self, name=None, property_group_type: 'GroupTypeEnum | str' = <GroupTypeEnum.MULTI: 'Multi-element'>, **kwargs) -> 'PropertyGroup'
+    default_type_uid() -> 'uuid.UUID | None'
+    fetch_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_association(self, values: 'np.ndarray') -> 'str'
+    find_or_create_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'ObjectType'
+    fix_up_name(name: 'str') -> 'str'
+    get_data(self, name: 'str | UUID') -> 'list[Data]'
+    get_data_list(self, attribute: 'str' = 'name') -> 'list[Any]'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    get_property_group(self, name: 'UUID | str') -> 'list[PropertyGroup] | list[None]'
+    load_children_values(self)
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'np.ndarray | None'
+    post_processing(self)
+    reference_to_data(self, data: 'str | Data | UUID') -> 'Data'
+    remove_children(self, children: 'list[Entity | PropertyGroup]')
+    remove_data_from_groups(self, data: 'list[Data | UUID | str] | Data | UUID | str')
+    remove_vertices(self, indices: 'list[int] | np.ndarray', clear_cache: 'bool' = False)
+    update_metadata(self, value: 'dict')
+    validate_association(self, attributes, property_group=None, **_)
+    validate_entity_type(self, entity_type: 'ObjectType') -> 'ObjectType'
+    validate_metadata(value) -> 'dict | None'
+    validate_vertices(xyz: 'np.ndarray | list | tuple | None') -> 'np.ndarray'
+geoh5py.objects.Surface
+    __init__(self, cells: 'np.ndarray | list | tuple | None' = None, **kwargs)
+    add_children(self, children: 'Entity | PropertyGroup | list[Entity | PropertyGroup]')
+    add_comment(self, comment: 'str', author: 'str | None' = None)
+    add_data(self, data: 'dict', property_group: 'str | PropertyGroup | None' = None, compression: 'int' = 5, **kwargs) -> 'Data | list[Data]'
+    add_data_to_group(self, data: 'list[Data | UUID | str] | Data | UUID | str', property_group: 'str | PropertyGroup', **kwargs) -> 'PropertyGroup'
+    add_default_visual_parameters(self)
+    add_file(self, file: 'str | Path | bytes', name: 'str' = 'filename.dat')
+    copy(self, parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, mask: 'np.ndarray | None' = None, cell_mask: 'np.ndarray | None' = None, **kwargs)
+    copy_from_extent(self, extent: 'np.ndarray', parent=None, *, copy_children: 'bool' = True, clear_cache: 'bool' = False, inverse: 'bool' = False, **kwargs) -> 'Entity | None'
+    create(workspace, **kwargs)
+    create_property_group(self, name=None, property_group_type: 'GroupTypeEnum | str' = <GroupTypeEnum.MULTI: 'Multi-element'>, **kwargs) -> 'PropertyGroup'
+    default_type_uid() -> 'uuid.UUID | None'
+    fetch_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_association(self, values: 'np.ndarray') -> 'str'
+    find_or_create_property_group(self, name=None, uid=None, **kwargs) -> 'PropertyGroup'
+    find_or_create_type(workspace: 'Workspace', **kwargs) -> 'ObjectType'
+    fix_up_name(name: 'str') -> 'str'
+    get_data(self, name: 'str | UUID') -> 'list[Data]'
+    get_data_list(self, attribute: 'str' = 'name') -> 'list[Any]'
+    get_entity(self, name: 'str | uuid.UUID') -> 'list[Entity | None]'
+    get_entity_list(self, entity_type=<class 'abc.ABC'>) -> 'list[str]'
+    get_property_group(self, name: 'UUID | str') -> 'list[PropertyGroup] | list[None]'
+    load_children_values(self)
+    mask_by_extent(self, extent: 'np.ndarray', inverse: 'bool' = False) -> 'np.ndarray | None'
+    post_processing(self)
+    reference_to_data(self, data: 'str | Data | UUID') -> 'Data'
+    remove_cells(self, indices: 'list[int] | np.ndarray', clear_cache: 'bool' = False)
+    remove_children(self, children: 'list[Entity | PropertyGroup]')
+    remove_data_from_groups(self, data: 'list[Data | UUID | str] | Data | UUID | str')
+    remove_vertices(self, indices: 'list[int] | np.ndarray', clear_cache: 'bool' = False)
+    update_metadata(self, value: 'dict')
+    validate_association(self, attributes, property_group=None, **_)
+    validate_cells(self, indices: 'list | tuple | np.ndarray | None') -> 'np.ndarray'
+    validate_entity_type(self, entity_type: 'ObjectType') -> 'ObjectType'
+    validate_metadata(value) -> 'dict | None'
+    validate_vertices(xyz: 'np.ndarray | list | tuple | None') -> 'np.ndarray'
